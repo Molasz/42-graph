@@ -11,7 +11,11 @@ import {
   satelliteCircles,
 } from "./data.js";
 import { registerAnim } from "./animation.js";
-import { showTooltip, handleTooltipMove } from "./interaction.js";
+import {
+  showTooltip,
+  handleTooltipMove,
+  handleNodeMouseLeave,
+} from "./interaction.js";
 
 function mk(tag, a = {}) {
   const e = document.createElementNS(N, tag);
@@ -160,7 +164,7 @@ export function renderNodes() {
     }
     g.addEventListener("mouseenter", (e) => showTooltip(e, p));
     g.addEventListener("mousemove", handleTooltipMove);
-    g.addEventListener("mouseleave", () => (tip.style.opacity = "0"));
+    g.addEventListener("mouseleave", handleNodeMouseLeave);
     if (p.repo) {
       const a = mk("a", { href: p.repo, target: "_blank" });
       a.append(g);

@@ -83,7 +83,9 @@ header {
   text-decoration: none;
   font-size: clamp(12px, 2vw, 14px);
   font-weight: 500;
-  transition: all var(--transition-speed);
+  transition:
+    color var(--transition-speed),
+    opacity var(--transition-speed);
 }
 #replay-btn {
   display: flex;
@@ -97,7 +99,9 @@ header {
   font-weight: 500;
   padding: 6px 12px;
   cursor: pointer;
-  transition: all var(--transition-speed);
+  transition:
+    color var(--transition-speed),
+    border-color var(--transition-speed);
 }
 #replay-btn:hover {
   color: var(--color-primary);
@@ -131,7 +135,7 @@ svg {
 }
 .nd {
   cursor: pointer;
-  transition: all var(--transition-speed);
+  transition: opacity var(--transition-speed);
 }
 .nd circle {
   transition: opacity var(--transition-speed);
@@ -206,18 +210,6 @@ footer {
   .email-icon {
     width: 14px;
     height: 14px;
-  }
-}
-
-@media (max-width: 768px) {
-  h1 {
-    margin-bottom: 15px;
-  }
-}
-
-@media (min-width: 769px) {
-  h1 {
-    margin-bottom: 20px;
   }
 }
 

@@ -270,6 +270,7 @@ export const workExperienceNodes = [
     animGroup: "nodes-work",
     desc: "Fullstack Tech Lead · 6 months Led a team of 7 developers on an Angular + .NET application, owning architecture design, feature implementation, and code quality standards.",
   },
+  /*
   {
     x: -95,
     y: 650,
@@ -282,6 +283,7 @@ export const workExperienceNodes = [
     animGroup: "nodes-work",
     desc: "6 months part-time experience as a fullstack techlead",
   },
+  */
 ];
 
 export const titleData = [
