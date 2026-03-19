@@ -1,0 +1,230 @@
+@keyframes g42FadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+svg * {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+:root {
+  --color-primary: #1ae0c8;
+  --color-accent: #0a0e1a;
+  --color-dark: #051a14;
+  --color-text: #7ab5b0;
+  --color-border: rgba(26, 224, 200, 0.3);
+  --transition-speed: 120ms;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+body {
+  background: linear-gradient(135deg, #0a0e1a 0%, #0f1729 50%, #0a0e1a 100%);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  color: var(--color-primary);
+}
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(6, 16, 34, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-border);
+}
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.header-left .header-title {
+  color: var(--color-primary);
+  font-size: clamp(14px, 2.5vw, 18px);
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+.header-right {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-right .email-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: clamp(12px, 2vw, 14px);
+  font-weight: 500;
+  transition: all var(--transition-speed);
+}
+#replay-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  color: var(--color-text);
+  font-size: clamp(12px, 2vw, 14px);
+  font-weight: 500;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all var(--transition-speed);
+}
+#replay-btn:hover {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+#replay-btn svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+.header-right .email-link:hover {
+  color: var(--color-primary);
+  opacity: 0.8;
+}
+.email-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.nd {
+  cursor: pointer;
+  transition: all var(--transition-speed);
+}
+.nd circle {
+  transition: opacity var(--transition-speed);
+}
+.nd:hover circle,
+.nd:focus-within circle {
+  opacity: 0.72;
+}
+.nd:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+#tip {
+  position: fixed;
+  background: rgba(6, 16, 34, 0.97);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 11px 15px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--transition-speed);
+  max-width: 220px;
+  z-index: 100;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.tn {
+  font:
+    700 13px/1.3 ui-sans-serif,
+    sans-serif;
+  color: var(--color-primary);
+  margin-bottom: 3px;
+}
+.tl {
+  font:
+    600 9px/1 ui-sans-serif,
+    sans-serif;
+  color: #3d8a80;
+  margin-bottom: 7px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+.td {
+  font:
+    400 11px/1.6 ui-sans-serif,
+    sans-serif;
+  color: var(--color-text);
+}
+footer {
+  margin-top: clamp(12px, 3vw, 20px);
+  font-size: clamp(10px, 2vw, 12px);
+  color: rgba(26, 224, 200, 0.3);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  #tip {
+    max-width: 180px;
+    font-size: 10px;
+  }
+  .header-content {
+    padding: 12px 15px;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .header-right .email-link {
+    font-size: 11px;
+  }
+  .email-icon {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  h1 {
+    margin-bottom: 15px;
+  }
+}
+
+@media (min-width: 769px) {
+  h1 {
+    margin-bottom: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
