@@ -204,43 +204,17 @@ export const commonCoreNodes = [
 
 export const outerCoreNodes = [
   {
-    x: 735,
-    y: 0,
-    r: 26,
-    lines: ["libasm"],
-    fs: 10,
-    c: 1,
-    lv: "Outer Core",
-    lbl: "libasm",
-    animGroup: "nodes-oc",
-    desc: "Re-implement core C functions in x86-64 assembly — ft_strlen, ft_strcpy, ft_strcmp, ft_write, ft_read, ft_strdup. Learn low-level programming and calling conventions.",
-    repo: "https://github.com/Molasz/42outer-libasm",
-  },
-  {
-    x: 805,
-    y: 0,
-    r: 26,
-    lines: ["dr-quine"],
-    fs: 10,
-    c: 1,
-    lv: "Outer Core",
-    lbl: "dr-quine",
-    animGroup: "nodes-oc",
-    desc: "Create self-replicating programs (quines) in C, asm and JS — programs that output their own source code. Explore code generation and self-reference.",
-    repo: "https://github.com/Molasz/42outer-dr-quine",
-  },
-  {
     x: 770,
-    y: 60,
+    y: 0,
     r: 26,
-    lines: ["nm"],
-    fs: 16,
+    lines: ["VIM"],
+    fs: 10,
     c: 1,
-    lv: "Outer Core",
-    lbl: "nm",
-    animGroup: "nodes-oc",
-    desc: "Re-implement the nm command — display symbol table of object files. Parse ELF format, handle symbols, types and values.",
-    repo: "https://github.com/Molasz/42outer-nm",
+    lv: "Extra",
+    lbl: ".vimrc",
+    animGroup: "nodes-tools",
+    desc: "My personalized .vimrc configuration — custom keybindings, plugins and settings to optimize my coding workflow in Vim.",
+    repo: "https://github.com/Molasz/vimrc",
   },
 ];
 
@@ -268,7 +242,7 @@ export const workExperienceNodes = [
     lv: "Experience",
     lbl: "Work experience I",
     animGroup: "nodes-work",
-    desc: "Fullstack Tech Lead · 6 months Led a team of 7 developers on an Angular + .NET application, owning architecture design, feature implementation, and code quality standards.",
+    desc: "Fullstack Tech Lead · 1 year · Led a team of 7 developers on an Angular + .NET application, owning architecture design, feature implementation, and code quality standards.",
   },
   /*
   {
@@ -286,16 +260,49 @@ export const workExperienceNodes = [
   */
 ];
 
-export const titleData = [
+export const newCircleNodes = [
   {
-    text: "Common core",
-    x: 320,
-    y: -40,
-    animGroup: "title-cc",
-    lbl: "Common Core",
-    lv: "Ranks 0 to 6",
-    desc: "The main curriculum at 42, covering a wide range of topics from basic algorithms to web development and computer graphics.",
+    x: 770,
+    y: 590,
+    r: 26,
+    lines: ["libasm"],
+    fs: 10,
+    c: 1,
+    lv: "Outer Core",
+    lbl: "libasm",
+    animGroup: "nodes-outer",
+    desc: "Re-implement core C functions in x86-64 assembly — ft_strlen, ft_strcpy, ft_strcmp, ft_write, ft_read, ft_strdup. Learn low-level programming and calling conventions.",
+    repo: "https://github.com/Molasz/42outer-libasm",
   },
+  {
+    x: 805,
+    y: 650,
+    r: 26,
+    lines: ["dr-quine"],
+    fs: 10,
+    c: 1,
+    lv: "Outer Core",
+    lbl: "dr-quine",
+    animGroup: "nodes-outer",
+    desc: "Create self-replicating programs (quines) in C, asm and JS — programs that output their own source code. Explore code generation and self-reference.",
+    repo: "https://github.com/Molasz/42outer-dr-quine",
+  },
+  {
+    x: 735,
+    y: 650,
+    r: 26,
+    lines: ["nm"],
+    fs: 16,
+    c: 1,
+    lv: "Outer Core",
+    lbl: "nm",
+    animGroup: "nodes-outer",
+    desc: "Re-implement the nm command — display symbol table of object files. Parse ELF format, handle symbols, types and values.",
+    repo: "https://github.com/Molasz/42outer-nm",
+  },
+];
+
+export const titleData = [
   {
     text: "Piscine",
     x: -130,
@@ -306,22 +313,40 @@ export const titleData = [
     desc: "A 4-week intensive bootcamp that serves as the entry point to the 42 program. It's a test of determination and a crash course in C programming.",
   },
   {
-    text: "Outer Core",
+    text: "Common core",
+    x: 320,
+    y: -40,
+    animGroup: "title-common",
+    lbl: "Common Core",
+    lv: "Ranks 0 to 6",
+    desc: "The main curriculum at 42, covering a wide range of topics from basic algorithms to web development and computer graphics.",
+  },
+  {
+    text: "Tools",
     x: 770,
     y: -40,
-    animGroup: "title-oc",
-    lbl: "Outer Core",
-    lv: "More to come",
-    desc: "Optional projects that allow students to delve deeper into specific areas of interest, such as assembly language or system programming.",
+    animGroup: "title-tools",
+    lv: "Extra",
+    lbl: "Tools & Utils",
+    desc: "Tools and utils that I use in my development workflow to enhance productivity and coding experience.",
   },
   {
     text: "Work Experience",
     x: -130,
     y: 550,
-    animGroup: "title-we",
+    animGroup: "title-work",
     lbl: "Work Experience",
     lv: "Experience",
     desc: "Projects and experiences from my professional career, showcasing real-world applications of the skills learned at 42 and beyond.",
+  },
+  {
+    text: "Outer Core",
+    x: 770,
+    y: 550,
+    animGroup: "title-outer",
+    lbl: "Outer Core",
+    lv: "More to come",
+    desc: "Optional projects that allow students to delve deeper into specific areas of interest, such as assembly language or system programming.",
   },
 ];
 
@@ -336,6 +361,7 @@ export const RINGS = [
 
 export const satelliteCircles = [
   { cx: -130, cy: 30, r: 40, animGroup: "nodes-piscine" },
-  { cx: 770, cy: 30, r: 40, animGroup: "nodes-oc" },
+  { cx: 770, cy: 30, r: 40, animGroup: "nodes-tools" },
   { cx: -130, cy: 620, r: 40, animGroup: "nodes-work" },
+  { cx: 770, cy: 620, r: 40, animGroup: "nodes-outer" },
 ];

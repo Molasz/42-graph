@@ -6,6 +6,7 @@ import {
   commonCoreNodes,
   outerCoreNodes,
   workExperienceNodes,
+  newCircleNodes,
   titleData,
   RINGS,
   satelliteCircles,
@@ -84,7 +85,7 @@ export function renderRings() {
     });
     const lbl = tx(rg.lbl, {
       x: 320,
-      y: 320 + rg.r + 7,
+      y: 320 - rg.r - 9,
       "text-anchor": "middle",
       "dominant-baseline": "auto",
       fill: "#1ae0c8",
@@ -132,6 +133,7 @@ export function renderNodes() {
     ...commonCoreNodes,
     ...outerCoreNodes,
     ...workExperienceNodes,
+    ...newCircleNodes,
   ];
   for (const p of allNodes) {
     const g = mk("g", { class: "nd" });

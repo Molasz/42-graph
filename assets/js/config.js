@@ -7,7 +7,8 @@ export const tip = document.getElementById("tip");
 export const ANIM_GROUPS = [
   "title-piscine",
   "nodes-piscine",
-  "title-cc",
+  "title-common",
+  "nodes-common",
   "bg-rings",
   "rank-0",
   "rank-1",
@@ -16,10 +17,12 @@ export const ANIM_GROUPS = [
   "rank-4",
   "rank-5",
   "rank-6",
-  "title-we",
+  "title-tools",
+  "nodes-tools",
+  "title-work",
   "nodes-work",
-  "title-oc",
-  "nodes-oc",
+  "title-outer",
+  "nodes-outer",
 ];
 
 export const ANIM_FADE = 300;
