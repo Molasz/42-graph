@@ -1,7 +1,7 @@
 "use strict";
 
 import { svg, scale } from "./config.js";
-import { renderBackgrounds, renderRings, renderTitles, renderNodes } from "./rendering.js";
+import { renderRings, renderTitles, renderNodes } from "./rendering.js";
 import { tryPlayIntro, replayIntro } from "./animation.js";
 import {
   handleWheel,
@@ -11,14 +11,13 @@ import {
 } from "./interaction.js";
 
 function initialize() {
-  renderBackgrounds();
   renderRings();
   renderTitles();
   renderNodes();
 
   const initialVbSize = 640 * scale;
   const initialVbX = 320 - initialVbSize / 2;
-  const initialVbY = 700 - initialVbSize / 2;
+  const initialVbY = 730 - initialVbSize / 2;
   svg.setAttribute(
     "viewBox",
     `${initialVbX} ${initialVbY} ${initialVbSize} ${initialVbSize}`,

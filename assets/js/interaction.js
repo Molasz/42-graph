@@ -17,10 +17,21 @@ import {
 } from "./config.js";
 
 export function showTooltip(e, data) {
-  const color = getGroupColor(data.animGroup);
-  tip.innerHTML = `<div class="tn">${data.lbl}</div><div class="tl">${data.lv}</div><div class="td">${data.desc}</div>`;
+  const color = getGroupColor(data.group);
+
+  let tagsHTML = "";
+  if (data.tags && Array.isArray(data.tags) && data.tags.length > 0) {
+    const pills = data.tags
+      .map(
+        (tag) =>
+          `<span class="pill" style="background-color: ${color}; color: black">${tag}</span>`,
+      )
+      .join(" ");
+    tagsHTML = `<div class="tl" style="margin-top: 7px; margin-bottom: 7px">${pills}</div>`;
+  }
+
+  tip.innerHTML = `<div class="tn" style="color: ${color}">${data.lbl}</div>${tagsHTML}<div class="td">${data.desc}</div>`;
   tip.style.borderColor = color;
-  tip.style.color = color;
   tip.style.opacity = "1";
   handleTooltipMove(e);
 }

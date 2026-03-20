@@ -36,15 +36,8 @@ const COLORS = {
   outer: "#8ceb10",
 };
 
-export function getGroupColor(group) {
-  if (!group) return COLORS.common;
-  if (group.includes("piscine")) return COLORS.piscine;
-  if (group.includes("rank") || group.includes("common")) return COLORS.common;
-  if (group.includes("outer")) return COLORS.outer;
-  if (group.includes("work")) return COLORS.work;
-  if (group.includes("tools")) return COLORS.tools;
-  return COLORS.common;
-}
+export const getGroupColor = (group) =>
+  (group && COLORS[group.split("-")[1]]) || COLORS.common;
 
 export function darkenColor(hex, percent) {
   if (!hex || hex.length < 7) return hex;
