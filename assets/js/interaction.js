@@ -13,10 +13,14 @@ import {
   setDragging,
   setStartCoords,
   setStartViewbox,
+  getGroupColor,
 } from "./config.js";
 
 export function showTooltip(e, data) {
+  const color = getGroupColor(data.animGroup);
   tip.innerHTML = `<div class="tn">${data.lbl}</div><div class="tl">${data.lv}</div><div class="td">${data.desc}</div>`;
+  tip.style.borderColor = color;
+  tip.style.color = color;
   tip.style.opacity = "1";
   handleTooltipMove(e);
 }

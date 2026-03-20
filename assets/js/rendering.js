@@ -1,6 +1,6 @@
 "use strict";
 
-import { N, svg } from "./config.js";
+import { N, svg, getGroupColor, darkenColor } from "./config.js";
 import {
   piscineNodes,
   commonCoreNodes,
@@ -42,7 +42,7 @@ export function renderBackgrounds() {
     cy: 320,
     r: 345,
     fill: "none",
-    stroke: "#1ae0c8",
+    stroke: getGroupColor("common"),
     "stroke-width": 0.4,
     opacity: 0.1,
   });
@@ -51,6 +51,7 @@ export function renderBackgrounds() {
   svg.append(mainBgFill, mainBgBorder);
 
   for (const sc of satelliteCircles) {
+    const color = getGroupColor(sc.animGroup);
     const bgFill = mk("circle", {
       cx: sc.cx,
       cy: sc.cy,
@@ -62,9 +63,9 @@ export function renderBackgrounds() {
       cy: sc.cy,
       r: sc.r,
       fill: "none",
-      stroke: "#1ae0c8",
+      stroke: color,
       "stroke-width": 0.4,
-      opacity: 0.1,
+      opacity: 0.2,
     });
     registerAnim(bgFill, sc.animGroup);
     registerAnim(bgBorder, sc.animGroup);
@@ -73,13 +74,14 @@ export function renderBackgrounds() {
 }
 
 export function renderRings() {
+  const commonColor = getGroupColor("common");
   for (const rg of RINGS) {
     const ring = mk("circle", {
       cx: 320,
       cy: 320,
       r: rg.r,
       fill: "none",
-      stroke: "#1ae0c8",
+      stroke: commonColor,
       "stroke-width": 0.7,
       opacity: 0.2,
     });
@@ -88,7 +90,7 @@ export function renderRings() {
       y: 320 - rg.r - 9,
       "text-anchor": "middle",
       "dominant-baseline": "auto",
-      fill: "#1ae0c8",
+      fill: commonColor,
       opacity: 0.35,
       "font-size": 9,
       "font-family": "ui-sans-serif,system-ui,sans-serif",
@@ -103,7 +105,6 @@ export function renderRings() {
 export function renderTitles() {
   const textStyle = {
     "text-anchor": "middle",
-    fill: "#1ae0c8",
     "font-size": 18,
     "font-family": "ui-sans-serif,system-ui,sans-serif",
     "font-weight": "600",
@@ -113,15 +114,17 @@ export function renderTitles() {
   };
 
   for (const titleInfo of titleData) {
+    const color = getGroupColor(titleInfo.animGroup);
     const titleEl = tx(titleInfo.text, {
       ...textStyle,
+      fill: color,
       x: titleInfo.x,
       y: titleInfo.y,
     });
 
     titleEl.addEventListener("mouseenter", (e) => showTooltip(e, titleInfo));
     titleEl.addEventListener("mousemove", handleTooltipMove);
-
+    titleEl.addEventListener("mouseleave", handleNodeMouseLeave);
     registerAnim(titleEl, titleInfo.animGroup);
     svg.append(titleEl);
   }
@@ -136,14 +139,15 @@ export function renderNodes() {
     ...newCircleNodes,
   ];
   for (const p of allNodes) {
+    const groupColor = getGroupColor(p.animGroup);
     const g = mk("g", { class: "nd" });
     g.append(
       mk("circle", {
         cx: p.x,
         cy: p.y,
         r: p.r,
-        fill: "#1ae0c8",
-        stroke: p.c ? "#054a3c" : "#077a62",
+        fill: groupColor,
+        stroke: darkenColor(groupColor, 20),
         "stroke-width": p.c ? 2.5 : 1.8,
       }),
     );
