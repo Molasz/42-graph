@@ -28,12 +28,15 @@ export const ANIM_GROUPS = [
 export const ANIM_FADE = 300;
 export const ANIM_STEP = (5 * 1000) / ANIM_GROUPS.length;
 
-const COLORS = {
+export const FONT_FAMILY = "ui-sans-serif, system-ui, sans-serif";
+
+export const COLORS = {
   piscine: "#0ab8fd",
   common: "#10ecd3",
   tools: "#05d362",
   work: "#569661",
   outer: "#8ceb10",
+  bg_dark: "#0a1628",
 };
 
 export const getGroupColor = (group) =>

@@ -15,6 +15,7 @@ svg * {
 }
 
 :root {
+  --font-family-sans: ui-sans-serif, system-ui, sans-serif;
   --color-primary: #1ae0c8;
   --color-accent: #0a0e1a;
   --color-dark: #051a14;
@@ -38,7 +39,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-family-sans);
   color: var(--color-primary);
 }
 header {
@@ -160,15 +161,13 @@ svg {
 }
 .tn {
   font:
-    700 13px/1.3 ui-sans-serif,
-    sans-serif;
+    700 13px/1.3 var(--font-family-sans);
   color: var(--color-primary);
   margin-bottom: 3px;
 }
 .tl {
   font:
-    600 9px/1 ui-sans-serif,
-    sans-serif;
+    600 9px/1 var(--font-family-sans);
   color: #3d8a80;
   margin-bottom: 7px;
   letter-spacing: 0.6px;
@@ -176,8 +175,7 @@ svg {
 }
 .td {
   font:
-    400 11px/1.6 ui-sans-serif,
-    sans-serif;
+    400 11px/1.6 var(--font-family-sans);
   color: var(--color-text);
 }
 

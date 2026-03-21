@@ -1,6 +1,13 @@
 "use strict";
 
-import { N, svg, getGroupColor, darkenColor } from "./config.js";
+import {
+  N,
+  svg,
+  getGroupColor,
+  darkenColor,
+  FONT_FAMILY,
+  COLORS,
+} from "./config.js";
 import {
   piscineNodes,
   commonNodes,
@@ -50,7 +57,7 @@ export function renderRings() {
       fill: commonColor,
       opacity: 0.35,
       "font-size": 9,
-      "font-family": "ui-sans-serif,system-ui,sans-serif",
+      "font-family": FONT_FAMILY,
       "font-weight": "700",
     });
     registerAnim(ring, "bg-rings");
@@ -64,7 +71,7 @@ export function renderRings() {
       cx: sc.cx,
       cy: sc.cy,
       r: sc.r,
-      fill: "#0a1628",
+      fill: COLORS.bg_dark,
     });
     const bgBorder = mk("circle", {
       cx: sc.cx,
@@ -85,7 +92,7 @@ export function renderTitles() {
   const textStyle = {
     "text-anchor": "middle",
     "font-size": 18,
-    "font-family": "ui-sans-serif,system-ui,sans-serif",
+    "font-family": FONT_FAMILY,
     "font-weight": "600",
     "letter-spacing": "2px",
     "text-transform": "uppercase",
@@ -135,7 +142,7 @@ export function renderNodes(nodes, group) {
           "dominant-baseline": "central",
           fill: "#051a14",
           "font-size": n.fs ?? 10,
-          "font-family": "ui-sans-serif,system-ui,sans-serif",
+          "font-family": FONT_FAMILY,
           "font-weight": "700",
         }),
       );
