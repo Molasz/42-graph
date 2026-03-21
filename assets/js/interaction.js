@@ -16,8 +16,8 @@ import {
   getGroupColor,
 } from "./config.js";
 
-export function showTooltip(e, data) {
-  const color = getGroupColor(data.group);
+export function showTooltip(e, data, group) {
+  const color = getGroupColor(group ?? data.group);
 
   let tagsHTML = "";
   if (data.tags && Array.isArray(data.tags) && data.tags.length > 0) {

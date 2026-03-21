@@ -140,7 +140,7 @@ export function renderNodes(nodes, group) {
         }),
       );
     }
-    g.addEventListener("mouseenter", (e) => showTooltip(e, n));
+    g.addEventListener("mouseenter", (e) => showTooltip(e, n, group));
     g.addEventListener("mousemove", handleTooltipMove);
     g.addEventListener("mouseleave", handleNodeMouseLeave);
     if (n.link) {
