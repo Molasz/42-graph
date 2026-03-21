@@ -9,11 +9,22 @@ import {
   handleMouseMove,
   handleMouseUp,
 } from "./interaction.js";
+import {
+  commonNodes,
+  outerNodes,
+  piscineNodes,
+  toolsNodes,
+  workNodes,
+} from "./data.js";
 
 function initialize() {
   renderRings();
   renderTitles();
-  renderNodes();
+  renderNodes(piscineNodes, "nodes-piscine");
+  renderNodes(commonNodes);
+  renderNodes(toolsNodes, "nodes-tools");
+  renderNodes(workNodes, "nodes-work");
+  renderNodes(outerNodes, "nodes-outer");
 
   const initialVbSize = 640 * scale;
   const initialVbX = 320 - initialVbSize / 2;

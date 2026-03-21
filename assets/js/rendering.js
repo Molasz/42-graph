@@ -94,7 +94,7 @@ export function renderTitles() {
 
   for (const titleInfo of titleData) {
     const color = getGroupColor(titleInfo.group);
-    const titleEl = tx(titleInfo.text, {
+    const titleEl = tx(titleInfo.title, {
       ...textStyle,
       fill: color,
       x: titleInfo.x,
@@ -109,55 +109,48 @@ export function renderTitles() {
   }
 }
 
-export function renderNodes() {
-  const allNodes = [
-    ...piscineNodes,
-    ...commonNodes,
-    ...outerNodes,
-    ...workNodes,
-    ...toolsNodes,
-  ];
-  for (const p of allNodes) {
-    const groupColor = getGroupColor(p.group);
+export function renderNodes(nodes, group) {
+  nodes.forEach((n) => {
+    const groupColor = getGroupColor(group ?? n.group);
     const g = mk("g", { class: "nd" });
     g.append(
       mk("circle", {
-        cx: p.x,
-        cy: p.y,
-        r: p.r,
+        cx: n.x,
+        cy: n.y,
+        r: n.r ?? 26,
         fill: groupColor,
         stroke: darkenColor(groupColor, 20),
         "stroke-width": 1.8,
       }),
     );
-    const nl = p.title.length,
-      lh = p.fs * 1.35,
-      y0 = p.y - ((nl - 1) * lh) / 2;
+    const nl = n.title.length,
+      lh = (n.fs ?? 10) * 1.35,
+      y0 = n.y - ((nl - 1) * lh) / 2;
     for (let i = 0; i < nl; i++) {
       g.append(
-        tx(p.title[i], {
-          x: p.x,
+        tx(n.title[i], {
+          x: n.x,
           y: y0 + i * lh,
           "text-anchor": "middle",
           "dominant-baseline": "central",
           fill: "#051a14",
-          "font-size": p.fs,
+          "font-size": n.fs ?? 10,
           "font-family": "ui-sans-serif,system-ui,sans-serif",
           "font-weight": "700",
         }),
       );
     }
-    g.addEventListener("mouseenter", (e) => showTooltip(e, p));
+    g.addEventListener("mouseenter", (e) => showTooltip(e, n));
     g.addEventListener("mousemove", handleTooltipMove);
     g.addEventListener("mouseleave", handleNodeMouseLeave);
-    if (p.link) {
-      const a = mk("a", { href: p.link, target: "_blank" });
+    if (n.link) {
+      const a = mk("a", { href: n.link, target: "_blank" });
       a.append(g);
-      registerAnim(a, p.group);
+      registerAnim(a, group ?? n.group);
       svg.append(a);
     } else {
-      registerAnim(g, p.group);
+      registerAnim(g, group ?? n.group);
       svg.append(g);
     }
-  }
+  });
 }

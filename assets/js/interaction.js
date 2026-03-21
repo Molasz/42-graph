@@ -30,7 +30,16 @@ export function showTooltip(e, data) {
     tagsHTML = `<div class="tl" style="margin-top: 7px; margin-bottom: 7px">${pills}</div>`;
   }
 
-  tip.innerHTML = `<div class="tn" style="color: ${color}">${data.lbl}</div>${tagsHTML}<div class="td">${data.desc}</div>`;
+  const title =
+    typeof data.title === "string"
+      ? data.title
+      : data.title
+          ?.reduce((acc, curr) => {
+            return acc + curr + " ";
+          }, "")
+          .trim();
+
+  tip.innerHTML = `<div class="tn" style="color: ${color}">${title}</div>${tagsHTML}<div class="td">${data.desc}</div>`;
   tip.style.borderColor = color;
   tip.style.opacity = "1";
   handleTooltipMove(e);
