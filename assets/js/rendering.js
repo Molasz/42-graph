@@ -1,7 +1,6 @@
 "use strict";
 
 import {
-  N,
   svg,
   getGroupColor,
   darkenColor,
@@ -9,7 +8,6 @@ import {
   COLORS,
 } from "./config.js";
 import {
-  piscineNodes,
   commonNodes,
   toolsNodes,
   workNodes,
@@ -24,18 +22,7 @@ import {
   handleTooltipMove,
   handleNodeMouseLeave,
 } from "./interaction.js";
-
-function mk(tag, a = {}) {
-  const e = document.createElementNS(N, tag);
-  for (const [k, v] of Object.entries(a)) e.setAttribute(k, v);
-  return e;
-}
-
-function tx(t, a = {}) {
-  const e = mk("text", a);
-  e.textContent = t;
-  return e;
-}
+import { mk, tx } from "./utils.js";
 
 export function renderRings() {
   const commonColor = getGroupColor("common");

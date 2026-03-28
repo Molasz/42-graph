@@ -12,15 +12,19 @@ import {
 import {
   commonNodes,
   outerNodes,
-  piscineNodes,
+  piscineGroup,
   toolsNodes,
   workNodes,
 } from "./data.js";
+import { createCustomCircles } from "./generator.js";
 
 function initialize() {
   renderRings();
   renderTitles();
-  renderNodes(piscineNodes, "nodes-piscine");
+
+  createCustomCircles(piscineGroup);
+
+  //renderNodes(piscineNodes, "nodes-piscine");
   renderNodes(commonNodes);
   renderNodes(toolsNodes, "nodes-tools");
   renderNodes(workNodes, "nodes-work");

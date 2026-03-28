@@ -1,31 +1,34 @@
 "use strict";
 
-export const piscineNodes = [
-  {
-    x: -165,
-    y: 0,
-    title: ["Piscine"],
-    tags: ["C", "Bash"],
-    desc: "Intensive 4-week bootcamp covering C, algorithms, memory management and Unix fundamentals — the foundation of the 42 curriculum.",
-    link: "https://github.com/Molasz/42Piscine",
+export const piscineGroup = {
+  x: -130,
+  y: 30,
+  nodes: {
+    1: [
+      {
+        title: ["Piscine"],
+        tags: ["C", "Bash"],
+        desc: "Intensive 4-week bootcamp covering C, algorithms, memory management and Unix fundamentals — the foundation of the 42 curriculum.",
+        link: "https://github.com/Molasz/42Piscine",
+      },
+      {
+        title: ["Piscine", "Reloaded"],
+        tags: ["C"],
+        desc: "Review of the Piscine with additional exercises, focusing on optimization and best practices — essential reinforcement before the projects.",
+        link: "https://github.com/Molasz/42PiscineReloaded",
+      },
+      {
+        title: ["BSQ"],
+        tags: ["C", "Algorithms"],
+        desc: "The classic 'Biggest Square' problem — find the largest square in a grid with obstacles, using dynamic programming and efficient file parsing.",
+        link: "https://github.com/photocatalysta/42-Piscine-BSQ-Project",
+      },
+    ],
   },
-  {
-    x: -130,
-    y: 60,
-    title: ["Piscine", "Reloaded"],
-    tags: ["C"],
-    desc: "Review of the Piscine with additional exercises, focusing on optimization and best practices — essential reinforcement before the projects.",
-    link: "https://github.com/Molasz/42PiscineReloaded",
-  },
-  {
-    x: -95,
-    y: 0,
-    title: ["BSQ"],
-    tags: ["C", "Algorithms"],
-    desc: "The classic 'Biggest Square' problem — find the largest square in a grid with obstacles, using dynamic programming and efficient file parsing.",
-    link: "https://github.com/photocatalysta/42-Piscine-BSQ-Project",
-  },
-];
+  tag: "nodes-piscine",
+  title: "Piscine",
+  desc: "A 4-week intensive bootcamp that serves as the entry point to the 42 program. It's a test of determination and a crash course in C programming.",
+};
 
 export const commonNodes = [
   {
@@ -216,6 +219,7 @@ export const outerNodes = [
 ];
 
 export const titleData = [
+  /*
   {
     title: "Piscine",
     x: -130,
@@ -223,6 +227,7 @@ export const titleData = [
     group: "title-piscine",
     desc: "A 4-week intensive bootcamp that serves as the entry point to the 42 program. It's a test of determination and a crash course in C programming.",
   },
+  */
   {
     title: "Common core",
     x: 320,
@@ -256,7 +261,7 @@ export const titleData = [
 export const RINGS = [80, 135, 190, 245, 300, 345];
 
 export const satelliteCircles = [
-  { cx: -130, cy: 30, r: 40, group: "nodes-piscine" },
+  //{ cx: -130, cy: 30, r: 40, group: "nodes-piscine" },
   { cx: 770, cy: 30, r: 40, group: "nodes-tools" },
   { cx: -130, cy: 640, r: 40, group: "nodes-work" },
   { cx: 770, cy: 640, r: 40, group: "nodes-outer" },

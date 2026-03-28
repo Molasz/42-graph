@@ -25,7 +25,7 @@ export const ANIM_GROUPS = [
   "nodes-outer",
 ];
 
-export const ANIM_FADE = 300;
+export const ANIM_FADE = 500;
 export const ANIM_STEP = (5 * 1000) / ANIM_GROUPS.length;
 
 export const FONT_FAMILY = "ui-sans-serif, system-ui, sans-serif";
