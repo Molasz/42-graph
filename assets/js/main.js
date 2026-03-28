@@ -1,7 +1,6 @@
 "use strict";
 
 import { svg, scale } from "./config.js";
-import { renderRings, renderTitles, renderNodes } from "./rendering.js";
 import { tryPlayIntro, replayIntro } from "./animation.js";
 import {
   handleWheel,
@@ -9,26 +8,11 @@ import {
   handleMouseMove,
   handleMouseUp,
 } from "./interaction.js";
-import {
-  commonNodes,
-  outerNodes,
-  piscineGroup,
-  toolsNodes,
-  workNodes,
-} from "./data.js";
+import { groups } from "./data.js";
 import { createCustomCircles } from "./generator.js";
 
 function initialize() {
-  renderRings();
-  renderTitles();
-
-  createCustomCircles(piscineGroup);
-
-  //renderNodes(piscineNodes, "nodes-piscine");
-  renderNodes(commonNodes);
-  renderNodes(toolsNodes, "nodes-tools");
-  renderNodes(workNodes, "nodes-work");
-  renderNodes(outerNodes, "nodes-outer");
+  groups.forEach((group) => createCustomCircles(group));
 
   const initialVbSize = 640 * scale;
   const initialVbX = 320 - initialVbSize / 2;
