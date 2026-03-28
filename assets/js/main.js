@@ -16,7 +16,7 @@ function initialize() {
 
   const initialVbSize = 640 * scale;
   const initialVbX = 320 - initialVbSize / 2;
-  const initialVbY = 730 - initialVbSize / 2;
+  const initialVbY = 760 - initialVbSize / 2;
   svg.setAttribute(
     "viewBox",
     `${initialVbX} ${initialVbY} ${initialVbSize} ${initialVbSize}`,

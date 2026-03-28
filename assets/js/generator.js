@@ -112,7 +112,7 @@ export function createCustomCircles({
       mk("circle", {
         cx: nodeX,
         cy: nodeY,
-        r: n.r ?? 26 + num_circles * 0.25,
+        r: n.r ?? 24,
         fill: groupColor,
         stroke: darkenColor(groupColor, 20),
         "stroke-width": 1.8,
@@ -165,8 +165,7 @@ export function createCustomCircles({
 
     const radius = rings[level - 1];
     const angleStep = (2 * Math.PI) / ringNodes.length;
-    const rotation_offset =
-      level > 1 ? (level - 1) * (Math.PI / 4) : 0;
+    const rotation_offset = level > 1 ? (level - 1) * (Math.PI / 4) : 0;
 
     ringNodes.forEach((n, j) => {
       const angle = angleStep * j - Math.PI / 2 + rotation_offset;

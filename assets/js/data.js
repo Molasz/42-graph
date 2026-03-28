@@ -19,6 +19,7 @@ const piscineGroup = {
         tags: ["C"],
         desc: "Review of the Piscine with additional exercises, focusing on optimization and best practices — essential reinforcement before the projects.",
         link: "https://github.com/Molasz/42PiscineReloaded",
+        fs: 8,
       },
       {
         title: ["BSQ"],
@@ -165,9 +166,9 @@ const commonGroup = {
       {
         x: 320,
         y: 685,
-        r: 36,
+        r: 34,
         title: ["ft_transcendence"],
-        fs: 8,
+        fs: 7,
         tags: ["Rank 6", "Docker", "Django", "JS"],
         group: "rank-6",
         desc: "Final project — fullstack web app with Docker, Django backend and React frontend. A 42-themed social platform with real-time features.",
@@ -188,9 +189,16 @@ const toolsGroup = {
     1: [
       {
         title: [".vimrc"],
-        tags: ["Config"],
+        tags: ["Vim", "Config"],
         desc: "My personalized .vimrc configuration — custom keybindings, plugins and settings to optimize my coding workflow in Vim.",
         link: "https://github.com/Molasz/vimrc",
+      },
+      {
+        title: ["norminette"],
+        tags: ["Formatter"],
+        desc: "Norrminette is the coding style checker used at 42",
+        link: "https://github.com/42school/norminette",
+        fs: 8,
       },
     ],
   },
@@ -232,7 +240,7 @@ const outerGroups = {
   desc: "Personal projects outside of the 42 curriculum, exploring various technologies and programming paradigms for fun and learning.",
   tag: "nodes-outer",
   nodes: {
-    2: [
+    1: [
       {
         title: ["libasm"],
         tags: ["Outer", "ASM", "C"],
