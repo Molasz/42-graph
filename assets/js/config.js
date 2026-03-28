@@ -5,23 +5,10 @@ export const svg = document.getElementById("graph");
 export const tip = document.getElementById("tip");
 
 export const ANIM_GROUPS = [
-  "title-piscine",
   "nodes-piscine",
-  "title-common",
   "nodes-common",
-  "bg-rings",
-  "rank-0",
-  "rank-1",
-  "rank-2",
-  "rank-3",
-  "rank-4",
-  "rank-5",
-  "rank-6",
-  "title-tools",
   "nodes-tools",
-  "title-work",
   "nodes-work",
-  "title-outer",
   "nodes-outer",
 ];
 

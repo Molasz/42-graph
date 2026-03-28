@@ -1,6 +1,6 @@
 "use strict";
 
-export const piscineGroup = {
+const piscineGroup = {
   x: -130,
   y: 30,
   tag: "nodes-piscine",
@@ -30,7 +30,7 @@ export const piscineGroup = {
   },
 };
 
-export const commonGroup = {
+const commonGroup = {
   x: 320,
   y: 340,
   title: "Common core",
@@ -42,6 +42,7 @@ export const commonGroup = {
       {
         x: 320,
         y: 340,
+        r: 22,
         title: ["libft"],
         tags: ["Rank 0", "C"],
         group: "rank-0",
@@ -176,9 +177,9 @@ export const commonGroup = {
   },
 };
 
-export const toolsGroup = {
+const toolsGroup = {
   x: 770,
-  y: 0,
+  y: 30,
   tag: "nodes-tools",
   title: "Tools",
   desc: "Tools and utils that I use in my development workflow to enhance productivity and coding experience.",
@@ -195,9 +196,9 @@ export const toolsGroup = {
   },
 };
 
-export const workGroups = {
+const workGroups = {
   x: -130,
-  y: 610,
+  y: 650,
   title: "Work Experience",
   desc: "Projects and experiences from my professional career, showcasing real-world applications of the skills learned at 42 and beyond.",
   tag: "nodes-work",
@@ -224,14 +225,14 @@ export const workGroups = {
   },
 };
 
-export const outerGroups = {
+const outerGroups = {
   x: 770,
-  y: 610,
+  y: 650,
   title: "Outer Projects",
   desc: "Personal projects outside of the 42 curriculum, exploring various technologies and programming paradigms for fun and learning.",
   tag: "nodes-outer",
   nodes: {
-    1: [
+    2: [
       {
         title: ["libasm"],
         tags: ["Outer", "ASM", "C"],
@@ -249,6 +250,12 @@ export const outerGroups = {
         tags: ["Outer", "C", "BASH"],
         desc: "Re-implement the nm command — display symbol table of object files. Parse ELF format, handle symbols, types and values.",
         link: "https://github.com/Molasz/42outer-nm",
+      },
+      {
+        title: ["malloc"],
+        tags: ["Outer", "C", "BASH"],
+        desc: "Re-implement malloc, free and realloc — create a custom memory allocator in C. Manage memory blocks, handle fragmentation and optimize for performance.",
+        link: "https://github.com/Molasz/42outer-malloc",
       },
     ],
   },
