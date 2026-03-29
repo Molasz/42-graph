@@ -1,7 +1,7 @@
 "use strict";
 
-import { svg, scale } from "./config.js";
-import { tryPlayIntro, replayIntro } from "./animation.js";
+import { svg } from "./config.js";
+import { animation } from "./animation.js";
 import {
   handleWheel,
   handleMouseDown,
@@ -10,6 +10,7 @@ import {
 } from "./interaction.js";
 import { groups } from "./data.js";
 import { createCustomCircles } from "./generator.js";
+import { state } from "./state.js";
 
 function initialize() {
   let animationOrder = 0;
@@ -17,7 +18,7 @@ function initialize() {
     animationOrder = createCustomCircles(group, animationOrder);
   });
 
-  const initialVbSize = 640 * scale;
+  const initialVbSize = 640 * state.getScale();
   const initialVbX = 320 - initialVbSize / 2;
   const initialVbY = 760 - initialVbSize / 2;
   svg.setAttribute(
@@ -31,10 +32,11 @@ function initialize() {
   svg.addEventListener("mouseup", handleMouseUp);
   svg.addEventListener("mouseleave", handleMouseUp);
 
-  document.addEventListener("visibilitychange", tryPlayIntro);
-  window.addEventListener("load", () => setTimeout(tryPlayIntro, 100));
+  document.addEventListener("visibilitychange", () => animation.tryPlay());
+  window.addEventListener("load", () => setTimeout(() => animation.tryPlay(), 100));
 
-  window.replayIntro = replayIntro;
+  const replayBtn = document.getElementById("replay-btn");
+  replayBtn.addEventListener("click", () => animation.replay());
 }
 
 initialize();

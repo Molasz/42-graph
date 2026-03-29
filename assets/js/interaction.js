@@ -1,20 +1,7 @@
 "use strict";
 
-import {
-  svg,
-  tip,
-  scale,
-  isDragging,
-  startX,
-  startY,
-  startVbX,
-  startVbY,
-  setScale,
-  setDragging,
-  setStartCoords,
-  setStartViewbox,
-  getGroupColor,
-} from "./config.js";
+import { svg, tip, getGroupColor } from "./config.js";
+import { state } from "./state.js";
 
 export function showTooltip(e, data, group) {
   let color = data.color || getGroupColor(group ?? data.group);
@@ -27,25 +14,17 @@ export function showTooltip(e, data, group) {
     finalTags = ["In Progress", ...(data.tags || [])];
   }
 
-  let tagsHTML = "";
-  if (finalTags && Array.isArray(finalTags) && finalTags.length > 0) {
-    const pills = finalTags
-      .map(
-        (tag) =>
-          `<span class="pill" style="background-color: ${color}; color: black">${tag}</span>`,
-      )
-      .join(" ");
-    tagsHTML = `<div class="tl" style="margin-top: 7px; margin-bottom: 7px">${pills}</div>`;
-  }
+  const tagsHTML =
+    finalTags && Array.isArray(finalTags) && finalTags.length > 0
+      ? `<div class="tl" style="margin-top: 7px; margin-bottom: 7px">${finalTags
+          .map(
+            (tag) =>
+              `<span class="pill" style="background-color: ${color}; color: black">${tag}</span>`,
+          )
+          .join(" ")}</div>`
+      : "";
 
-  const title =
-    typeof data.title === "string"
-      ? data.title
-      : data.title
-          ?.reduce((acc, curr) => {
-            return acc + curr + " ";
-          }, "")
-          .trim();
+  const title = Array.isArray(data.title) ? data.title.join(" ") : data.title;
 
   tip.innerHTML = `<div class="tn" style="color: ${color}">${title}</div>${tagsHTML}<div class="td">${data.desc}</div>`;
   tip.style.borderColor = color;
@@ -68,10 +47,13 @@ export function handleWheel(e) {
   const centerX = vb[0] + vb[2] / 2;
   const centerY = vb[1] + vb[3] / 2;
   const delta = e.deltaY > 0 ? 1.05 : 0.95;
-  const minScale = 0.5,
-    maxScale = 3;
-  const newScale = Math.min(Math.max(scale * delta, minScale), maxScale);
-  setScale(newScale);
+  const minScale = 0.5;
+  const maxScale = 3;
+  const newScale = Math.min(
+    Math.max(state.getScale() * delta, minScale),
+    maxScale,
+  );
+  state.setScale(newScale);
   const s = 640 * newScale;
   svg.setAttribute(
     "viewBox",
@@ -80,18 +62,20 @@ export function handleWheel(e) {
 }
 
 export function handleMouseDown(e) {
-  setDragging(true);
-  setStartCoords(e.clientX, e.clientY);
+  state.setDragging(true);
+  state.setStartCoords(e.clientX, e.clientY);
   const vb = svg.getAttribute("viewBox").split(" ").map(Number);
-  setStartViewbox(vb[0], vb[1]);
+  state.setStartViewbox(vb[0], vb[1]);
   svg.style.cursor = "grabbing";
   e.preventDefault();
 }
 
 export function handleMouseMove(e) {
-  if (!isDragging) return;
+  if (!state.isDragging) return;
   const vb = svg.getAttribute("viewBox").split(" ").map(Number);
   const vbSize = vb[2];
+  const { x: startX, y: startY } = state.getStartCoords();
+  const { x: startVbX, y: startVbY } = state.getStartViewbox();
   const newVbX = startVbX - (e.clientX - startX) / (window.innerWidth / vbSize);
   const newVbY =
     startVbY - (e.clientY - startY) / (window.innerHeight / vbSize);
@@ -99,6 +83,6 @@ export function handleMouseMove(e) {
 }
 
 export function handleMouseUp() {
-  setDragging(false);
+  state.setDragging(false);
   svg.style.cursor = "grab";
 }

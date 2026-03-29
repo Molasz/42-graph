@@ -42,30 +42,3 @@ export function darkenColor(hex, percent) {
 
   return `#${rStr}${gStr}${bStr}`;
 }
-
-export let scale = 3;
-export let isDragging = false;
-export let startX, startY, startVbX, startVbY;
-export let introPlayed = false;
-
-export function setScale(newScale) {
-  scale = newScale;
-}
-
-export function setDragging(dragging) {
-  isDragging = dragging;
-}
-
-export function setStartCoords(x, y) {
-  startX = x;
-  startY = y;
-}
-
-export function setStartViewbox(x, y) {
-  startVbX = x;
-  startVbY = y;
-}
-
-export function setIntroPlayed(played) {
-  introPlayed = played;
-}

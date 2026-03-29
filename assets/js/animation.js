@@ -1,46 +1,54 @@
 "use strict";
 
-import { ANIM_FADE, introPlayed, setIntroPlayed } from "./config.js";
+import { ANIM_FADE } from "./config.js";
+import { state } from "./state.js";
 
-const ANIM_REGISTRY = [];
 const ANIM_STEP_DELAY = 100; // ms between each animation step
 
-export function registerAnim(el, order) {
-  el.style.opacity = "0";
-  el.style.pointerEvents = "none";
-  ANIM_REGISTRY.push({ el, order });
-}
-
-export function playIntro() {
-  ANIM_REGISTRY.sort((a, b) => a.order - b.order);
-  for (let i = 0; i < ANIM_REGISTRY.length; i++) {
-    const { el } = ANIM_REGISTRY[i];
-    const delay = i * ANIM_STEP_DELAY;
-    el.style.animation = `g42FadeIn ${ANIM_FADE}ms ease forwards`;
-    el.style.animationDelay = delay + "ms";
-    setTimeout(() => {
-      el.style.pointerEvents = "auto";
-    }, delay);
+class Animation {
+  constructor() {
+    this.registry = [];
   }
-}
 
-export function replayIntro() {
-  for (const { el } of ANIM_REGISTRY) {
-    el.style.animation = "none";
-    el.style.pointerEvents = "none";
+  register(el, order) {
     el.style.opacity = "0";
+    el.style.pointerEvents = "none";
+    this.registry.push({ el, order });
   }
-  setTimeout(() => playIntro(), 100);
+
+  play() {
+    this.registry.sort((a, b) => a.order - b.order);
+    for (let i = 0; i < this.registry.length; i++) {
+      const { el } = this.registry[i];
+      const delay = i * ANIM_STEP_DELAY;
+      el.style.animation = `g42FadeIn ${ANIM_FADE}ms ease forwards`;
+      el.style.animationDelay = delay + "ms";
+      setTimeout(() => {
+        el.style.pointerEvents = "auto";
+      }, delay);
+    }
+  }
+
+  replay() {
+    for (const { el } of this.registry) {
+      el.style.animation = "none";
+      el.style.pointerEvents = "none";
+      el.style.opacity = "0";
+    }
+    setTimeout(() => this.play(), 100);
+  }
+
+  tryPlay() {
+    if (
+      document.visibilityState === "visible" &&
+      this.registry.length > 0 &&
+      !state.hasIntroPlayed()
+    ) {
+      this.replay();
+      state.setIntroPlayed(true);
+      document.removeEventListener("visibilitychange", () => this.tryPlay());
+    }
+  }
 }
 
-export function tryPlayIntro() {
-  if (
-    document.visibilityState === "visible" &&
-    ANIM_REGISTRY.length > 0 &&
-    !introPlayed
-  ) {
-    replayIntro();
-    setIntroPlayed(true);
-    document.removeEventListener("visibilitychange", tryPlayIntro);
-  }
-}
+export const animation = new Animation();
