@@ -65,7 +65,11 @@ export function createCustomCircles(
   const ringLevels = Object.keys(nodes).map(Number);
   const num_circles = Math.max(...ringLevels);
 
-  const totalNodes = Object.values(nodes).flat().length;
+  const totalNodes = Object.values(nodes)
+    .map((levelData) =>
+      (Array.isArray(levelData) ? levelData : levelData.nodes) || [],
+    )
+    .flat().length;
   let avgSeparation = 35;
   avgSeparation += num_circles * 1.5;
   avgSeparation += totalNodes * 0.2;
@@ -120,7 +124,13 @@ export function createCustomCircles(
   const sortedRingLevels = ringLevels.sort((a, b) => a - b);
   for (const level of sortedRingLevels) {
     if (level === 0) continue;
-    const ringNodes = nodes[level];
+
+    const levelData = nodes[level];
+    const ringNodes = Array.isArray(levelData) ? levelData : levelData.nodes;
+    if (!ringNodes || ringNodes.length === 0) continue;
+
+    const level_offset = Array.isArray(levelData) ? 0 : levelData.offset || 0;
+    const level_offset_rad = level_offset * (Math.PI / 180);
 
     // Render ring
     const radius = rings[level - 1];
@@ -158,7 +168,13 @@ export function createCustomCircles(
     const rotation_offset = level > 1 ? (level - 1) * (Math.PI / 4) : 0;
 
     ringNodes.forEach((n, j) => {
-      const angle = angleStep * j - Math.PI / 2 + rotation_offset;
+      const node_offset_rad = (n.offset || 0) * (Math.PI / 180);
+      const angle =
+        angleStep * j -
+        Math.PI / 2 +
+        rotation_offset +
+        level_offset_rad +
+        node_offset_rad;
       const nodeX = x + radius * Math.cos(angle);
       const nodeY = y + radius * Math.sin(angle);
 
