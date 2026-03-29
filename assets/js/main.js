@@ -20,7 +20,7 @@ function initialize() {
 
   const initialVbSize = 640 * state.getScale();
   const initialVbX = 320 - initialVbSize / 2;
-  const initialVbY = 760 - initialVbSize / 2;
+  const initialVbY = 730 - initialVbSize / 2;
   svg.setAttribute(
     "viewBox",
     `${initialVbX} ${initialVbY} ${initialVbSize} ${initialVbSize}`,
@@ -33,7 +33,9 @@ function initialize() {
   svg.addEventListener("mouseleave", handleMouseUp);
 
   document.addEventListener("visibilitychange", () => animation.tryPlay());
-  window.addEventListener("load", () => setTimeout(() => animation.tryPlay(), 100));
+  window.addEventListener("load", () =>
+    setTimeout(() => animation.tryPlay(), 100),
+  );
 
   const replayBtn = document.getElementById("replay-btn");
   replayBtn.addEventListener("click", () => animation.replay());

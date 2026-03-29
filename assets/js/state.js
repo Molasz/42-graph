@@ -2,7 +2,7 @@
 
 class State {
   constructor() {
-    this.scale = 3;
+    this.scale = 2.7;
     this.isDragging = false;
     this.startX = 0;
     this.startY = 0;
