@@ -27,9 +27,17 @@ class Animation {
         el.style.pointerEvents = "auto";
       }, delay);
     }
+    const totalAnimTime =
+      this.registry.length * ANIM_STEP_DELAY + ANIM_FADE + 300;
+    setTimeout(() => {
+      const replayBtn = document.getElementById("replay-btn");
+      replayBtn.classList.remove("hiding");
+    }, totalAnimTime);
   }
 
   replay() {
+    const replayBtn = document.getElementById("replay-btn");
+    replayBtn.classList.add("hiding");
     for (const { el } of this.registry) {
       el.style.animation = "none";
       el.style.pointerEvents = "none";

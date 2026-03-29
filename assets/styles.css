@@ -115,7 +115,15 @@ header {
   cursor: pointer;
   transition:
     color var(--transition-speed),
-    border-color var(--transition-speed);
+    border-color var(--transition-speed),
+    opacity 300ms ease,
+    transform 300ms ease;
+}
+
+.button.hiding {
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
 }
 
 .button:hover {
