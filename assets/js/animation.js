@@ -1,20 +1,21 @@
 "use strict";
 
-import { ANIM_GROUPS, ANIM_FADE, ANIM_STEP, introPlayed, setIntroPlayed } from "./config.js";
+import { ANIM_FADE, introPlayed, setIntroPlayed } from "./config.js";
 
 const ANIM_REGISTRY = [];
+const ANIM_STEP_DELAY = 100; // ms between each animation step
 
-export function registerAnim(el, group) {
+export function registerAnim(el, order) {
   el.style.opacity = "0";
   el.style.pointerEvents = "none";
-  ANIM_REGISTRY.push({ el, group });
+  ANIM_REGISTRY.push({ el, order });
 }
 
 export function playIntro() {
-  for (const { el, group } of ANIM_REGISTRY) {
-    const step = ANIM_GROUPS.indexOf(group);
-    if (step === -1) continue;
-    const delay = step * ANIM_STEP;
+  ANIM_REGISTRY.sort((a, b) => a.order - b.order);
+  for (let i = 0; i < ANIM_REGISTRY.length; i++) {
+    const { el } = ANIM_REGISTRY[i];
+    const delay = i * ANIM_STEP_DELAY;
     el.style.animation = `g42FadeIn ${ANIM_FADE}ms ease forwards`;
     el.style.animationDelay = delay + "ms";
     setTimeout(() => {

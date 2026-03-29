@@ -1,33 +1,23 @@
 "use strict";
 
+import { groups } from "./data.js";
+
 export const N = "http://www.w3.org/2000/svg";
 export const svg = document.getElementById("graph");
 export const tip = document.getElementById("tip");
 
-export const ANIM_GROUPS = [
-  "nodes-piscine",
-  "nodes-common",
-  "nodes-tools",
-  "nodes-work",
-  "nodes-outer",
-];
-
 export const ANIM_FADE = 300;
-export const ANIM_STEP = (3 * 1000) / ANIM_GROUPS.length;
 
 export const FONT_FAMILY = "ui-sans-serif, system-ui, sans-serif";
 
-export const COLORS = {
-  piscine: "#0ab8fd",
-  common: "#10ecd3",
-  tools: "#05d362",
-  work: "#569661",
-  outer: "#8ceb10",
-  bg_dark: "#0a1628",
-};
+export const bg_dark = "#0a1628";
 
-export const getGroupColor = (group) =>
-  (group && COLORS[group.split("-")[1]]) || COLORS.common;
+export const getGroupColor = (tag) => {
+  const common = groups.find((g) => g.tag === "common").color;
+  if (!tag) return common;
+  const group = groups.find((g) => g.tag === tag);
+  return group ? group.color : common;
+};
 
 export function darkenColor(hex, percent) {
   if (!hex || hex.length < 7) return hex;

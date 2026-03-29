@@ -3,8 +3,9 @@
 const piscineGroup = {
   x: -130,
   y: 30,
-  tag: "nodes-piscine",
+  tag: "piscine",
   title: "Piscine",
+  color: "#0ab8fd",
   desc: "A 4-week intensive bootcamp that serves as the entry point to the 42 program. It's a test of determination and a crash course in C programming.",
   nodes: {
     1: [
@@ -36,8 +37,9 @@ const commonGroup = {
   y: 340,
   title: "Common core",
   desc: "The main curriculum at 42, covering a wide range of topics from basic algorithms to web development and computer graphics.",
-  tag: "nodes-common",
+  tag: "common",
   showNumbers: true,
+  color: "#10ecd3",
   nodes: {
     0: [
       {
@@ -181,9 +183,10 @@ const commonGroup = {
 const toolsGroup = {
   x: 770,
   y: 30,
-  tag: "nodes-tools",
+  tag: "tools",
   title: "Tools",
   desc: "Tools and utils that I use in my development workflow to enhance productivity and coding experience.",
+  color: "#05d362",
 
   nodes: {
     1: [
@@ -209,7 +212,8 @@ const workGroups = {
   y: 650,
   title: "Work Experience",
   desc: "Projects and experiences from my professional career, showcasing real-world applications of the skills learned at 42 and beyond.",
-  tag: "nodes-work",
+  tag: "work",
+  color: "#569661",
   nodes: {
     1: [
       {
@@ -238,7 +242,8 @@ const outerGroups = {
   y: 650,
   title: "Outer Projects",
   desc: "Personal projects outside of the 42 curriculum, exploring various technologies and programming paradigms for fun and learning.",
-  tag: "nodes-outer",
+  tag: "outer",
+  color: "#8ceb10",
   nodes: {
     1: [
       {

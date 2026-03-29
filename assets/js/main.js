@@ -12,7 +12,10 @@ import { groups } from "./data.js";
 import { createCustomCircles } from "./generator.js";
 
 function initialize() {
-  groups.forEach((group) => createCustomCircles(group));
+  let animationOrder = 0;
+  groups.forEach((group) => {
+    animationOrder = createCustomCircles(group, animationOrder);
+  });
 
   const initialVbSize = 640 * scale;
   const initialVbX = 320 - initialVbSize / 2;

@@ -10,101 +10,14 @@ import {
 } from "./interaction.js";
 import { tx, mk } from "./utils.js";
 
-export function createCustomCircles({
-  x,
-  y,
-  nodes,
-  tag,
-  title,
-  desc,
-  showNumbers,
-}) {
-  const groupElement = mk("g", { class: tag });
+export function createCustomCircles(
+  { x, y, nodes, tag, title, desc, showNumbers },
+  animationOrder,
+) {
+  let order = animationOrder;
+  const nodesTag = `nodes-${tag}`;
+  const groupElement = mk("g", { class: nodesTag });
   const groupColor = getGroupColor(tag);
-
-  const ringLevels = Object.keys(nodes).map(Number);
-  const num_circles = Math.max(...ringLevels);
-
-  const totalNodes = Object.values(nodes).flat().length;
-  let avgSeparation = 35;
-  avgSeparation += num_circles * 1.5;
-  avgSeparation += totalNodes * 0.2;
-
-  const rings = [];
-  const d = 4; // decrease factor
-  const s1 = avgSeparation + (d * (num_circles - 1)) / 2;
-  let current_radius = 0;
-  for (let i = 0; i < num_circles; i++) {
-    const separation = s1 - i * d;
-    current_radius += separation;
-    rings.push(current_radius);
-  }
-
-  // Render title
-  const textStyle = {
-    "text-anchor": "middle",
-    "font-size": 18,
-    "font-family": FONT_FAMILY,
-    "font-weight": "600",
-    "letter-spacing": "2px",
-    "text-transform": "uppercase",
-    opacity: 0.8,
-  };
-
-  const titleEl = tx(title, {
-    ...textStyle,
-    fill: groupColor,
-    x: x,
-    y: y - (rings[rings.length - 1] || 0) - 40,
-  });
-
-  titleEl.addEventListener("mouseenter", (e) =>
-    showTooltip(e, { title, desc }, tag),
-  );
-  titleEl.addEventListener("mousemove", handleTooltipMove);
-  titleEl.addEventListener("mouseleave", handleNodeMouseLeave);
-  registerAnim(titleEl, tag);
-  groupElement.append(titleEl);
-
-  // Render rings
-  rings.forEach((rg, i) => {
-    const level = i + 1;
-    if (nodes[level] && nodes[level].length > 0) {
-      const ring = mk("circle", {
-        cx: x,
-        cy: y,
-        r: rg,
-        fill: "none",
-        stroke: groupColor,
-        "stroke-width": 0.7,
-        opacity: 0.2,
-      });
-      registerAnim(ring, tag);
-      groupElement.append(ring);
-
-      if (showNumbers) {
-        const lbl = tx(i + 1, {
-          x: x,
-          y: y - rg - 9,
-          "text-anchor": "middle",
-          "dominant-baseline": "auto",
-          fill: groupColor,
-          opacity: 0.35,
-          "font-size": 9,
-          "font-family": FONT_FAMILY,
-          "font-weight": "700",
-        });
-
-        titleEl.addEventListener("mouseenter", (e) =>
-          showTooltip(e, titleInfo),
-        );
-        titleEl.addEventListener("mousemove", handleTooltipMove);
-        titleEl.addEventListener("mouseleave", handleNodeMouseLeave);
-        registerAnim(lbl, tag);
-        groupElement.append(lbl);
-      }
-    }
-  });
 
   const createNodeElement = (n, nodeX, nodeY) => {
     const g = mk("g", { class: "nd" });
@@ -141,29 +54,106 @@ export function createCustomCircles({
     if (n.link) {
       const a = mk("a", { href: n.link, target: "_blank" });
       a.append(g);
-      registerAnim(a, tag);
+      registerAnim(a, order++);
       return a;
     } else {
-      registerAnim(g, tag);
+      registerAnim(g, order++);
       return g;
     }
   };
 
-  // Render nodes
+  const ringLevels = Object.keys(nodes).map(Number);
+  const num_circles = Math.max(...ringLevels);
+
+  const totalNodes = Object.values(nodes).flat().length;
+  let avgSeparation = 35;
+  avgSeparation += num_circles * 1.5;
+  avgSeparation += totalNodes * 0.2;
+
+  const rings = [];
+  const d = 4; // decrease factor
+  const s1 = avgSeparation + (d * (num_circles - 1)) / 2;
+  let current_radius = 0;
+  for (let i = 0; i < num_circles; i++) {
+    const separation = s1 - i * d;
+    current_radius += separation;
+    rings.push(current_radius);
+  }
+
+  // Render title
+  const textStyle = {
+    "text-anchor": "middle",
+    "font-size": 18,
+    "font-family": FONT_FAMILY,
+    "font-weight": "600",
+    "letter-spacing": "2px",
+    "text-transform": "uppercase",
+    opacity: 0.8,
+  };
+
+  const titleEl = tx(title, {
+    ...textStyle,
+    fill: groupColor,
+    x: x,
+    y: y - (rings[rings.length - 1] || 0) - 40,
+    class: `titles-${tag}`,
+  });
+
+  titleEl.addEventListener("mouseenter", (e) =>
+    showTooltip(e, { title, desc }, tag),
+  );
+  titleEl.addEventListener("mousemove", handleTooltipMove);
+  titleEl.addEventListener("mouseleave", handleNodeMouseLeave);
+  registerAnim(titleEl, order++);
+  groupElement.append(titleEl);
+
+  // Render nodes level 0
+  if (nodes[0]) {
+    const node = nodes[0][0];
+    if (node) {
+      const nodeElement = createNodeElement(node, x, y);
+      groupElement.append(nodeElement);
+    }
+  }
+
+  // Render rings and nodes
   const sortedRingLevels = ringLevels.sort((a, b) => a - b);
   for (const level of sortedRingLevels) {
+    if (level === 0) continue;
     const ringNodes = nodes[level];
 
-    if (level === 0) {
-      const node = ringNodes[0];
-      if (node) {
-        const nodeElement = createNodeElement(node, x, y);
-        groupElement.append(nodeElement);
-      }
-      continue;
+    // Render ring
+    const radius = rings[level - 1];
+    const ring = mk("circle", {
+      cx: x,
+      cy: y,
+      r: radius,
+      fill: "none",
+      stroke: groupColor,
+      "stroke-width": 0.7,
+      opacity: 0.2,
+      class: `rings-${tag}`,
+    });
+    registerAnim(ring, order++);
+    groupElement.append(ring);
+
+    if (showNumbers) {
+      const lbl = tx(level, {
+        x: x,
+        y: y - radius - 9,
+        "text-anchor": "middle",
+        "dominant-baseline": "auto",
+        fill: groupColor,
+        opacity: 0.35,
+        "font-size": 9,
+        "font-family": FONT_FAMILY,
+        "font-weight": "700",
+      });
+      registerAnim(lbl, order++);
+      groupElement.append(lbl);
     }
 
-    const radius = rings[level - 1];
+    // Render nodes
     const angleStep = (2 * Math.PI) / ringNodes.length;
     const rotation_offset = level > 1 ? (level - 1) * (Math.PI / 4) : 0;
 
@@ -178,4 +168,5 @@ export function createCustomCircles({
   }
 
   svg.appendChild(groupElement);
+  return order;
 }
