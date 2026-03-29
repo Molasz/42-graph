@@ -21,13 +21,17 @@ export function createCustomCircles(
 
   const createNodeElement = (n, nodeX, nodeY) => {
     const g = mk("g", { class: "nd" });
+    let nodeColor = n.color || groupColor;
+    if (n.inProgress) {
+      nodeColor = "#808080";
+    }
     g.append(
       mk("circle", {
         cx: nodeX,
         cy: nodeY,
         r: n.r ?? 24,
-        fill: groupColor,
-        stroke: darkenColor(groupColor, 20),
+        fill: nodeColor,
+        stroke: darkenColor(nodeColor, 20),
         "stroke-width": 1.8,
       }),
     );
@@ -66,9 +70,19 @@ export function createCustomCircles(
   const num_circles = Math.max(...ringLevels);
 
   const totalNodes = Object.values(nodes)
-    .map((levelData) =>
-      (Array.isArray(levelData) ? levelData : levelData.nodes) || [],
-    )
+    .map((levelData) => {
+      if (Array.isArray(levelData)) {
+        return levelData; // old format for a level
+      }
+      if (levelData.nodes && Array.isArray(levelData.nodes)) {
+        return levelData.nodes; // new { nodes: [] } format
+      }
+      // It might be the node object itself for level 0
+      if (levelData.title) {
+        return [levelData];
+      }
+      return [];
+    })
     .flat().length;
   let avgSeparation = 35;
   avgSeparation += num_circles * 1.5;
@@ -113,7 +127,20 @@ export function createCustomCircles(
 
   // Render nodes level 0
   if (nodes[0]) {
-    const node = nodes[0][0];
+    let node = null;
+    const levelData = nodes[0];
+    if (Array.isArray(levelData) && levelData.length > 0) {
+      node = levelData[0];
+    } else if (levelData.nodes && Array.isArray(levelData.nodes)) {
+      node = levelData.nodes[0];
+    } else if (
+      typeof levelData === "object" &&
+      levelData !== null &&
+      levelData.title
+    ) {
+      node = levelData;
+    }
+
     if (node) {
       const nodeElement = createNodeElement(node, x, y);
       groupElement.append(nodeElement);

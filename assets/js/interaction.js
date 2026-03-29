@@ -17,11 +17,19 @@ import {
 } from "./config.js";
 
 export function showTooltip(e, data, group) {
-  const color = getGroupColor(group ?? data.group);
+  let color = data.color || getGroupColor(group ?? data.group);
+  if (data.inProgress) {
+    color = "#808080";
+  }
+
+  let finalTags = data.tags;
+  if (data.inProgress) {
+    finalTags = ["In Progress", ...(data.tags || [])];
+  }
 
   let tagsHTML = "";
-  if (data.tags && Array.isArray(data.tags) && data.tags.length > 0) {
-    const pills = data.tags
+  if (finalTags && Array.isArray(finalTags) && finalTags.length > 0) {
+    const pills = finalTags
       .map(
         (tag) =>
           `<span class="pill" style="background-color: ${color}; color: black">${tag}</span>`,
