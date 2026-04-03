@@ -15,7 +15,7 @@ class State {
     return this.scale;
   }
 
-  isDragging() {
+  getDraggingStatus() {
     return this.isDragging;
   }
 

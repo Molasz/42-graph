@@ -9,43 +9,70 @@ import {
 } from "./interaction.js";
 import { tx, mk } from "./utils.js";
 
+// Constants for SVG generation
+const IN_PROGRESS_COLOR = "#808080";
+const NODE_STROKE_DARKEN = 20;
+const NODE_STROKE_WIDTH = 1.8;
+const DEFAULT_NODE_RADIUS = 24;
+const DEFAULT_FONT_SIZE = 10;
+const LINE_HEIGHT_MULTIPLIER = 1.35;
+const TITLE_FONT_SIZE = 18;
+const TITLE_LETTER_SPACING = "2px";
+const TITLE_BOTTOM_OFFSET = 40;
+const RING_STROKE_WIDTH = 0.7;
+const RING_OPACITY = 0.2;
+const LEVEL_FONT_SIZE = 9;
+const LEVEL_BOTTOM_OFFSET = 9;
+const LEVEL_OPACITY = 0.35;
+
+/**
+ * Create a single node element (circle with text labels)
+ */
 function createNodeElement({ n, nodeX, nodeY, groupColor, tag, order }) {
   const g = mk("g", { class: "nd" });
   let nodeColor = n.color || groupColor;
   if (n.inProgress) {
-    nodeColor = "#808080";
+    nodeColor = IN_PROGRESS_COLOR;
   }
+
   g.append(
     mk("circle", {
       cx: nodeX,
       cy: nodeY,
-      r: n.r ?? 24,
+      r: n.r ?? DEFAULT_NODE_RADIUS,
       fill: nodeColor,
-      stroke: darkenColor(nodeColor, 20),
-      "stroke-width": 1.8,
+      stroke: darkenColor(nodeColor, NODE_STROKE_DARKEN),
+      "stroke-width": NODE_STROKE_WIDTH,
       "data-group-tag": tag || "common",
     }),
   );
-  const nl = n.title.length,
-    lh = (n.fs ?? 10) * 1.35,
-    y0 = nodeY - ((nl - 1) * lh) / 2;
-  for (let i = 0; i < nl; i++) {
+
+  // Add text labels (node titles)
+  const textLinesCount = n.title.length;
+  const lineHeight = (n.fs ?? DEFAULT_FONT_SIZE) * LINE_HEIGHT_MULTIPLIER;
+  const firstLineY = nodeY - ((textLinesCount - 1) * lineHeight) / 2;
+
+  for (let i = 0; i < textLinesCount; i++) {
     g.append(
       tx(n.title[i], {
         x: nodeX,
-        y: y0 + i * lh,
+        y: firstLineY + i * lineHeight,
         "text-anchor": "middle",
         "dominant-baseline": "central",
         fill: "var(--color-node-text)",
-        "font-size": n.fs ?? 10,
+        "font-size": n.fs ?? DEFAULT_FONT_SIZE,
         "font-family": FONT_FAMILY,
         "font-weight": "700",
       }),
     );
   }
+
+  // Add event listeners
   g.addEventListener("mouseenter", (e) => showTooltip(e, n, tag));
   g.addEventListener("mousemove", handleTooltipMove);
   g.addEventListener("mouseleave", handleNodeMouseLeave);
+
+  // Wrap in link if available
   if (n.link) {
     const a = mk("a", { href: n.link, target: "_blank" });
     a.append(g);
