@@ -23,6 +23,7 @@ function createNodeElement({ n, nodeX, nodeY, groupColor, tag, order }) {
       fill: nodeColor,
       stroke: darkenColor(nodeColor, 20),
       "stroke-width": 1.8,
+      "data-group-tag": tag || "common",
     }),
   );
   const nl = n.title.length,
@@ -35,7 +36,7 @@ function createNodeElement({ n, nodeX, nodeY, groupColor, tag, order }) {
         y: y0 + i * lh,
         "text-anchor": "middle",
         "dominant-baseline": "central",
-        fill: "#051a14",
+        fill: "var(--color-node-text)",
         "font-size": n.fs ?? 10,
         "font-family": FONT_FAMILY,
         "font-weight": "700",
@@ -163,6 +164,7 @@ function createRings({
         "font-size": 9,
         "font-family": FONT_FAMILY,
         "font-weight": "700",
+        class: `level-numbers-${tag}`,
       });
       animation.register(lbl, order++);
       groupElement.append(lbl);

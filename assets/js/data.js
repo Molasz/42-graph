@@ -1,11 +1,13 @@
 "use strict";
 
 const piscineGroup = {
-  x: -130,
-  y: 30,
+  x: -50,
+  y: 100,
   tag: "piscine",
   title: "Piscine",
   color: "#0ab8fd",
+  darkColor: "#0ab8fd",
+  lightColor: "#0284c7",
   desc: "A 4-week intensive bootcamp that serves as the entry point to the 42 program. It's a test of determination and a crash course in C programming.",
   nodes: {
     1: {
@@ -42,6 +44,8 @@ const commonGroup = {
   tag: "common",
   showNumbers: true,
   color: "#10ecd3",
+  darkColor: "#10ecd3",
+  lightColor: "#0d9488",
   nodes: {
     0: {
       x: 320,
@@ -195,12 +199,14 @@ const commonGroup = {
 };
 
 const toolsGroup = {
-  x: 770,
-  y: 30,
+  x: 690,
+  y: 100,
   tag: "tools",
   title: "Tools",
   desc: "Tools and utils that I use in my development workflow to enhance productivity and coding experience.",
   color: "#05d362",
+  darkColor: "#05d362",
+  lightColor: "#16a34a",
 
   nodes: {
     1: {
@@ -224,12 +230,14 @@ const toolsGroup = {
 };
 
 const workGroups = {
-  x: -130,
-  y: 650,
+  x: -50,
+  y: 580,
   title: "Work Experience",
   desc: "Projects and experiences from my professional career, showcasing real-world applications of the skills learned at 42 and beyond.",
   tag: "work",
   color: "#569661",
+  darkColor: "#569661",
+  lightColor: "#166534",
   nodes: {
     1: {
       nodes: [
@@ -256,12 +264,14 @@ const workGroups = {
 };
 
 const outerGroups = {
-  x: 770,
-  y: 650,
+  x: 690,
+  y: 580,
   title: "Outer Projects",
   desc: "Personal projects outside of the 42 curriculum, exploring various technologies and programming paradigms for fun and learning.",
   tag: "outer",
   color: "#8ceb10",
+  darkColor: "#8ceb10",
+  lightColor: "#65a30d",
   nodes: {
     1: {
       nodes: [

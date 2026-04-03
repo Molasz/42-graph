@@ -13,10 +13,13 @@ export const FONT_FAMILY = "ui-sans-serif, system-ui, sans-serif";
 export const bg_dark = "#0a1628";
 
 export const getGroupColor = (tag) => {
-  const common = groups.find((g) => g.tag === "common").color;
-  if (!tag) return common;
+  const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+  const colorProp = currentTheme === 'dark' ? 'darkColor' : 'lightColor';
+  
+  const common = groups.find((g) => g.tag === "common");
+  if (!tag) return common[colorProp] || common.color;
   const group = groups.find((g) => g.tag === tag);
-  return group ? group.color : common;
+  return group ? (group[colorProp] || group.color) : (common[colorProp] || common.color);
 };
 
 export function darkenColor(hex, percent) {
