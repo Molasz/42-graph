@@ -34,7 +34,6 @@ function updateNodeCircles() {
     if (!groupTag) return;
     
     const currentFill = circle.getAttribute('fill');
-    // Skip updating in-progress nodes
     if (currentFill === IN_PROGRESS_COLOR) return;
     
     const newColor = getGroupColor(groupTag);

@@ -9,13 +9,9 @@ export const tip = document.getElementById("tip");
 export const ANIM_FADE = 300;
 export const FONT_FAMILY = "ui-sans-serif, system-ui, sans-serif";
 
-// Theme constants
-const DARK_THEME = "dark";
-const LIGHT_THEME = "light";
-
 export const getGroupColor = (tag) => {
-  const currentTheme = document.documentElement.getAttribute('data-theme') || DARK_THEME;
-  const colorProp = currentTheme === DARK_THEME ? 'darkColor' : 'lightColor';
+  const currentTheme = document.documentElement.getAttribute('data-theme') || "dark";
+  const colorProp = currentTheme === "dark" ? 'darkColor' : 'lightColor';
   
   const common = groups.find((g) => g.tag === "common");
   if (!tag) return common[colorProp] || common.color;

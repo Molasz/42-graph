@@ -3,7 +3,6 @@
 import { ANIM_FADE } from "./config.js";
 import { state } from "./state.js";
 
-// Constants
 const ANIM_STEP_DELAY = 100;
 const REPLAY_DELAY = 100;
 const POST_ANIM_DELAY = 300;
