@@ -3,19 +3,15 @@
 import { svg, tip, getGroupColor } from "./config.js";
 import { state } from "./state.js";
 
-// Constants
 const TOOLTIP_OFFSET_X = 16;
 const TOOLTIP_OFFSET_Y = -8;
 const IN_PROGRESS_COLOR = "#808080";
 const PILL_TEXT_COLOR = "black";
-const ZOOM_SPEED = 0.05; // 5% per scroll
+const ZOOM_SPEED = 0.05;
 const MIN_SCALE = 0.5;
 const MAX_SCALE = 3;
 const BASE_VIEWBOX_SIZE = 640;
 
-/**
- * Build HTML for tooltip tags
- */
 function buildTagsHTML(tags, color) {
   if (!Array.isArray(tags) || tags.length === 0) return "";
   const tagElements = tags
@@ -24,9 +20,6 @@ function buildTagsHTML(tags, color) {
   return `<div class="tl" style="margin-top: 7px; margin-bottom: 7px">${tagElements}</div>`;
 }
 
-/**
- * Parse viewBox string to array of numbers
- */
 function parseViewbox() {
   return svg.getAttribute("viewBox").split(" ").map(Number);
 }

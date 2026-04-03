@@ -23,12 +23,6 @@ export const getGroupColor = (tag) => {
   return group ? (group[colorProp] || group.color) : (common[colorProp] || common.color);
 };
 
-/**
- * Darken a hex color by a given percentage
- * @param {string} hex - Hex color code (e.g., "#FFFFFF")
- * @param {number} percent - Percentage to darken (0-100)
- * @returns {string} Darkened hex color code
- */
 export function darkenColor(hex, percent) {
   if (!hex || hex.length < 7) return hex;
   

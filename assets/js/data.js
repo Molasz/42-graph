@@ -251,13 +251,6 @@ const workGroups = {
           fs: 8,
           desc: "Fullstack Tech Lead · 1 year · Led a team of 7 developers on an Angular + .NET application, owning architecture design, feature implementation, and code quality standards.",
         },
-        /*
-      {
-        title: ["Part", "Time I"],
-        tags: "Experience",
-        desc: "6 months part-time experience as a fullstack techlead",
-      },
-      */
       ],
     },
   },

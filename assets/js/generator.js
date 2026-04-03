@@ -9,7 +9,6 @@ import {
 } from "./interaction.js";
 import { tx, mk } from "./utils.js";
 
-// Constants for SVG generation
 const IN_PROGRESS_COLOR = "#808080";
 const NODE_STROKE_DARKEN = 20;
 const NODE_STROKE_WIDTH = 1.8;
@@ -25,9 +24,6 @@ const LEVEL_FONT_SIZE = 9;
 const LEVEL_BOTTOM_OFFSET = 9;
 const LEVEL_OPACITY = 0.35;
 
-/**
- * Create a single node element (circle with text labels)
- */
 function createNodeElement({ n, nodeX, nodeY, groupColor, tag, order }) {
   const g = mk("g", { class: "nd" });
   let nodeColor = n.color || groupColor;
@@ -47,7 +43,6 @@ function createNodeElement({ n, nodeX, nodeY, groupColor, tag, order }) {
     }),
   );
 
-  // Add text labels (node titles)
   const textLinesCount = n.title.length;
   const lineHeight = (n.fs ?? DEFAULT_FONT_SIZE) * LINE_HEIGHT_MULTIPLIER;
   const firstLineY = nodeY - ((textLinesCount - 1) * lineHeight) / 2;
@@ -67,12 +62,10 @@ function createNodeElement({ n, nodeX, nodeY, groupColor, tag, order }) {
     );
   }
 
-  // Add event listeners
   g.addEventListener("mouseenter", (e) => showTooltip(e, n, tag));
   g.addEventListener("mousemove", handleTooltipMove);
   g.addEventListener("mouseleave", handleNodeMouseLeave);
 
-  // Wrap in link if available
   if (n.link) {
     const a = mk("a", { href: n.link, target: "_blank" });
     a.append(g);
@@ -96,10 +89,10 @@ function createGroupTitle({
 }) {
   const textStyle = {
     "text-anchor": "middle",
-    "font-size": 18,
+    "font-size": TITLE_FONT_SIZE,
     "font-family": FONT_FAMILY,
     "font-weight": "600",
-    "letter-spacing": "2px",
+    "letter-spacing": TITLE_LETTER_SPACING,
     "text-transform": "uppercase",
     opacity: 0.8,
   };
@@ -108,7 +101,7 @@ function createGroupTitle({
     ...textStyle,
     fill: groupColor,
     x: x,
-    y: y - (rings[rings.length - 1] || 0) - 40,
+    y: y - (rings[rings.length - 1] || 0) - TITLE_BOTTOM_OFFSET,
     class: `titles-${tag}`,
   });
 
@@ -153,7 +146,7 @@ function createRings({
   avgSeparation += totalNodes * 0.2;
 
   const rings = [];
-  const d = 4; // decrease factor
+  const d = 4;
   const s1 = avgSeparation + (d * (num_circles - 1)) / 2;
   let current_radius = 0;
   for (let i = 0; i < num_circles; i++) {
@@ -173,8 +166,8 @@ function createRings({
       r: radius,
       fill: "none",
       stroke: groupColor,
-      "stroke-width": 0.7,
-      opacity: 0.2,
+      "stroke-width": RING_STROKE_WIDTH,
+      opacity: RING_OPACITY,
       class: `rings-${tag}`,
     });
     animation.register(ring, order++);
@@ -183,12 +176,12 @@ function createRings({
     if (showNumbers) {
       const lbl = tx(level, {
         x: x,
-        y: y - radius - 9,
+        y: y - radius - LEVEL_BOTTOM_OFFSET,
         "text-anchor": "middle",
         "dominant-baseline": "auto",
         fill: groupColor,
-        opacity: 0.35,
-        "font-size": 9,
+        opacity: LEVEL_OPACITY,
+        "font-size": LEVEL_FONT_SIZE,
         "font-family": FONT_FAMILY,
         "font-weight": "700",
         class: `level-numbers-${tag}`,

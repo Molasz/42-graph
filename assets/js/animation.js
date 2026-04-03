@@ -4,9 +4,9 @@ import { ANIM_FADE } from "./config.js";
 import { state } from "./state.js";
 
 // Constants
-const ANIM_STEP_DELAY = 100; // ms between each animation step
-const REPLAY_DELAY = 100; // ms to wait before replaying
-const POST_ANIM_DELAY = 300; // ms after animation completes
+const ANIM_STEP_DELAY = 100;
+const REPLAY_DELAY = 100;
+const POST_ANIM_DELAY = 300;
 const REPLAY_BTN_ID = "replay-btn";
 const HIDING_CLASS = "hiding";
 
@@ -15,18 +15,12 @@ class Animation {
     this.registry = [];
   }
 
-  /**
-   * Register an element for animation
-   */
   register(el, order) {
     el.style.opacity = "0";
     el.style.pointerEvents = "none";
     this.registry.push({ el, order });
   }
 
-  /**
-   * Play animation for all registered elements
-   */
   play() {
     this.registry.sort((a, b) => a.order - b.order);
     
@@ -47,9 +41,6 @@ class Animation {
     }, totalAnimTime);
   }
 
-  /**
-   * Replay animation (reset and play again)
-   */
   replay() {
     const replayBtn = document.getElementById(REPLAY_BTN_ID);
     replayBtn?.classList.add(HIDING_CLASS);
@@ -63,9 +54,6 @@ class Animation {
     setTimeout(() => this.play(), REPLAY_DELAY);
   }
 
-  /**
-   * Try to play animation on page load/visibility change
-   */
   tryPlay() {
     if (
       document.visibilityState === "visible" &&
