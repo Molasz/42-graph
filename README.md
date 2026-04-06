@@ -12,25 +12,20 @@ An interactive mind map of my journey through the [42 Barcelona](https://42barce
 
 </div>
 
-## Why a graph?
+## 🚀 Make it your own
 
-The 42 curriculum isn't linear. Projects unlock each other, concepts build on previous ones, and the path you take is partly your own. A traditional list felt like it missed the point — a graph makes the structure visible: dependencies, progression rings, and the satellites (Piscine, Outer Core, Work Experience) that orbit the main common core.
+This repository is designed to be easily adaptable. You can use it to showcase your own 42 journey or any other project progression in a beautiful, interactive graph!
 
-The goal was something I'd actually want to look at, not just a bullet list on a CV.
+### How to use:
 
-## What's in it
+1. **Fork the repository** to your own GitHub account.
+2. **Update the data:** Edit `assets/js/data.js` to add your own projects, grades, and descriptions.
+3. **Configure the graph:** Tweak settings like colors or layout in `assets/js/config.js` if needed.
+4. **Update personal assets:** Replace `assets/CV.pdf` with your own file.
+5. **Deploy:** Go to your repository settings -> Pages, and deploy from the `main` branch.
 
-- **Piscine** — the 4-week entry bootcamp
-- **Common Core** — main curriculum, levels 0–6, arranged in concentric rings
-- **Outer Core** — optional deep-dive projects (assembly, ELF parsing, quines)
-- **Work Experience** — real-world context alongside the academic path
+Feel free to explore and modify the code to fully customize the look and feel!
 
-Each node links to its GitHub repo and shows a tooltip with a short description.
+---
 
-## Tech
-
-Vanilla JS + SVG. No frameworks, no build step — just `index.html`.
-
-- Pan and zoom the graph with mouse drag / scroll wheel
-- Hover any node or title for details
-- Replay the intro animation with the ↺ button
+⭐ **If you found this project useful or inspiring, please consider giving it a star!** It helps others discover it.
