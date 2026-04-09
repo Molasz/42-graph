@@ -291,7 +291,6 @@ const outerGroups = {
           tags: ["Outer", "C", "BASH"],
           desc: "Re-implement malloc, free and realloc — create a custom memory allocator in C. Manage memory blocks, handle fragmentation and optimize for performance.",
           link: "https://github.com/Molasz/42outer-malloc",
-          inProgress: true,
         },
       ],
     },
