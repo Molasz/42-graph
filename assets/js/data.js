@@ -266,7 +266,8 @@ const outerGroups = {
   darkColor: "#8ceb10",
   lightColor: "#65a30d",
   nodes: {
-    1: {
+    2: {
+      offset: -120,
       nodes: [
         {
           title: ["libasm"],
@@ -291,6 +292,13 @@ const outerGroups = {
           tags: ["Outer", "C", "BASH"],
           desc: "Re-implement malloc, free and realloc — create a custom memory allocator in C. Manage memory blocks, handle fragmentation and optimize for performance.",
           link: "https://github.com/Molasz/42outer-malloc",
+        },
+        {
+          title: ["ls"],
+          tags: ["Outer", "C", "BASH"],
+          desc: "Re-implement the ls command — list directory contents. Handle file attributes, sorting and display options.",
+          link: "https://github.com/Molasz/42outer-ls",
+          inProgress: true,
         },
       ],
     },
