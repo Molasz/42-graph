@@ -16,7 +16,7 @@ function buildTagsHTML(tags, color) {
   if (!Array.isArray(tags) || tags.length === 0) return "";
   const tagElements = tags
     .map((tag) => `<span class="pill" style="background-color: ${color}; color: ${PILL_TEXT_COLOR}">${tag}</span>`)
-    .join(" ");
+    .join("");
   return `<div class="tl" style="margin-top: 7px; margin-bottom: 7px">${tagElements}</div>`;
 }
 

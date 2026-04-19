@@ -280,10 +280,12 @@ svg {
 }
 
 .pill {
+  display: inline-block;
   padding: var(--padding-pill);
   border-radius: var(--border-radius);
   font-size: 8px;
   font-weight: 700;
+  margin: 0 4px 4px 0;
 }
 
 footer {
