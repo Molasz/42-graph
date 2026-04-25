@@ -303,7 +303,7 @@ const outerGroups = {
         {
           title: ["Piscine", "Embedded"],
           tags: ["Piscine", "C", "ATmega328", "AVR"],
-          desc: "42 Paris — 3 week embedded systems bootcamp. Programming ATMEGA microcontrollers in C, working with AVR architecture, GPIO, timers, interrupts and more",
+          desc: "42 Paris — 3 week embedded systems bootcamp. Programming ATMEGA microcontrollers in C, working with AVR architecture, GPIO, timers, interrupts, I2C, EEPROM and more",
           link: "https://github.com/Molasz/42outer-embedded",
           fs: 8,
           inProgress: true,
