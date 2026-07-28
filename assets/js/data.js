@@ -298,7 +298,6 @@ const outerGroups = {
           tags: ["Outer", "C", "BASH"],
           desc: "Re-implement the ls command — list directory contents. Handle file attributes, sorting and display options.",
           link: "https://github.com/Molasz/42outer-ls",
-          inProgress: true,
         },
         {
           title: ["Piscine", "Embedded"],
