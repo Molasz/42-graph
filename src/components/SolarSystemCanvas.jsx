@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React from "react";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import { Sun } from "./Sun.jsx";
@@ -21,21 +21,6 @@ export function SolarSystemCanvas({
   viewPreset,
   onResetViewPreset,
 }) {
-  const [planetPositions, setPlanetPositions] = useState({});
-
-  const handleUpdatePosition = useCallback((id, pos) => {
-    setPlanetPositions((prev) => {
-      if (
-        prev[id] &&
-        Math.abs(prev[id][0] - pos[0]) < 0.1 &&
-        Math.abs(prev[id][2] - pos[2]) < 0.1
-      ) {
-        return prev;
-      }
-      return { ...prev, [id]: pos };
-    });
-  }, []);
-
   const searchLower = searchQuery.trim().toLowerCase();
 
   const isPlanetDimmed = (p) => {
@@ -62,7 +47,11 @@ export function SolarSystemCanvas({
         position:
           selectedPlanet.isSun
             ? [0, 0, 0]
-            : planetPositions[selectedPlanet.id] || [0, 0, 0],
+            : [
+                Math.cos(selectedPlanet.initialAngle || 0) * (selectedPlanet.orbitRadius || 50),
+                0,
+                Math.sin(selectedPlanet.initialAngle || 0) * (selectedPlanet.orbitRadius || 50),
+              ],
         radius: selectedPlanet.radius || (selectedPlanet.isSun ? 14 : 6),
       }
     : null;
@@ -77,6 +66,7 @@ export function SolarSystemCanvas({
         height: "100vh",
         zIndex: 1,
       }}
+      dpr={[1, 2]}
       camera={{ position: [0, 130, 240], fov: 45, near: 1, far: 3000 }}
       gl={{
         antialias: true,
@@ -113,7 +103,6 @@ export function SolarSystemCanvas({
           showLabels={showLabels}
           onSelect={(data, pos) => onSelectPlanet(data, pos)}
           onHover={(data, e) => onHoverPlanet(data, e)}
-          onUpdatePosition={handleUpdatePosition}
         />
       ))}
 

@@ -17,7 +17,6 @@ export function Planet({
   showLabels,
   onSelect,
   onHover,
-  onUpdatePosition,
 }) {
   const groupRef = useRef();
   const meshRef = useRef();
@@ -70,9 +69,8 @@ export function Planet({
   const moonData = useMemo(() => {
     if (!data.isCrownProject) return [];
     return [
-      { distance: data.radius * 2.5, speed: 1.5, angle: 0 },
-      { distance: data.radius * 3.3, speed: 2.2, angle: (2 * Math.PI) / 3 },
-      { distance: data.radius * 4.1, speed: 1.8, angle: (4 * Math.PI) / 3 },
+      { distance: (data.radius || 6) * 2.2, speed: 1.5, angle: 0 },
+      { distance: (data.radius || 6) * 3.0, speed: 2.2, angle: (2 * Math.PI) / 3 },
     ];
   }, [data.isCrownProject, data.radius]);
 
@@ -87,18 +85,13 @@ export function Planet({
     const r = data.orbitRadius || 50;
     const x = Math.cos(angle) * r;
     const z = Math.sin(angle) * r;
-    const y = 0;
 
     if (groupRef.current) {
-      groupRef.current.position.set(x, y, z);
-    }
-
-    if (onUpdatePosition) {
-      onUpdatePosition(data.id, [x, y, z]);
+      groupRef.current.position.set(x, 0, z);
     }
 
     if (meshRef.current) {
-      meshRef.current.rotation.y += delta * 0.6;
+      meshRef.current.rotation.y += delta * 0.5;
     }
 
     if (ringRef.current) {
@@ -112,7 +105,7 @@ export function Planet({
         if (moonMesh) {
           moonMesh.position.set(
             Math.cos(m.angle) * m.distance,
-            Math.sin(m.angle * 2) * 1.5,
+            Math.sin(m.angle * 2) * 1.2,
             Math.sin(m.angle) * m.distance
           );
         }
@@ -132,7 +125,9 @@ export function Planet({
         ref={meshRef}
         onClick={(e) => {
           e.stopPropagation();
-          const pos = groupRef.current ? groupRef.current.position.toArray() : [0, 0, 0];
+          const angle = angleRef.current;
+          const r = data.orbitRadius || 50;
+          const pos = [Math.cos(angle) * r, 0, Math.sin(angle) * r];
           onSelect(data, pos);
         }}
         onPointerOver={(e) => {
@@ -141,7 +136,7 @@ export function Planet({
         }}
         onPointerOut={() => onHover(null)}
       >
-        <sphereGeometry args={[data.radius || 4, 48, 48]} />
+        <sphereGeometry args={[data.radius || 6, 32, 32]} />
         <meshStandardMaterial
           map={texture}
           roughness={0.55}
@@ -155,7 +150,7 @@ export function Planet({
 
       {!isDimmed && (
         <mesh material={atmosphereMaterial}>
-          <sphereGeometry args={[(data.radius || 4) * 1.15, 32, 32]} />
+          <sphereGeometry args={[(data.radius || 6) * 1.15, 24, 24]} />
         </mesh>
       )}
 
@@ -166,9 +161,9 @@ export function Planet({
         >
           <ringGeometry
             args={[
-              data.ringInnerRadius || (data.radius || 4) * 1.4,
-              data.ringOuterRadius || (data.radius || 4) * 2.2,
-              64,
+              data.ringInnerRadius || (data.radius || 6) * 1.4,
+              data.ringOuterRadius || (data.radius || 6) * 2.2,
+              48,
             ]}
           />
           <meshBasicMaterial
@@ -184,7 +179,7 @@ export function Planet({
       {isSelected && (
         <mesh rotation={[Math.PI / 2, 0, 0]}>
           <ringGeometry
-            args={[(data.radius || 4) * 1.35, (data.radius || 4) * 1.45, 48]}
+            args={[(data.radius || 6) * 1.35, (data.radius || 6) * 1.45, 36]}
           />
           <meshBasicMaterial
             color={0xffffff}
@@ -201,7 +196,7 @@ export function Planet({
           key={idx}
           ref={(el) => (moonsRefs.current[idx] = el)}
         >
-          <sphereGeometry args={[1.2, 16, 16]} />
+          <sphereGeometry args={[1.2, 12, 12]} />
           <meshStandardMaterial
             color={0x99f6e4}
             emissive={0x0d9488}
