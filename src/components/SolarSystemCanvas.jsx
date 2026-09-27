@@ -7,6 +7,7 @@ import { Orbits } from "./Orbits.jsx";
 import { Starfield } from "./Starfield.jsx";
 import { CameraRig } from "./CameraRig.jsx";
 import { projects, groupsInfo } from "../data/projectsData.js";
+import { getPlanetPosition } from "../utils/planetPositions.js";
 
 export function SolarSystemCanvas({
   selectedPlanet,
@@ -44,14 +45,20 @@ export function SolarSystemCanvas({
 
   const targetFocus = selectedPlanet
     ? {
+        id: selectedPlanet.id,
+        token: selectedPlanet.currentPosition
+          ? selectedPlanet.currentPosition.join(",")
+          : selectedPlanet.id,
         position:
-          selectedPlanet.isSun
+          selectedPlanet.currentPosition ||
+          getPlanetPosition(selectedPlanet.id) ||
+          (selectedPlanet.isSun
             ? [0, 0, 0]
             : [
                 Math.cos(selectedPlanet.initialAngle || 0) * (selectedPlanet.orbitRadius || 50),
                 0,
                 Math.sin(selectedPlanet.initialAngle || 0) * (selectedPlanet.orbitRadius || 50),
-              ],
+              ]),
         radius: selectedPlanet.radius || (selectedPlanet.isSun ? 14 : 6),
       }
     : null;
@@ -90,6 +97,7 @@ export function SolarSystemCanvas({
       <Sun
         onSelect={(data, pos) => onSelectPlanet(data, pos)}
         onHover={(data, e) => onHoverPlanet(data, e)}
+        showLabels={showLabels}
       />
 
       {projects.map((p) => (

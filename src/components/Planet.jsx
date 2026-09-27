@@ -1,12 +1,13 @@
 import React, { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { Html } from "@react-three/drei";
 import {
   createProceduralPlanetTexture,
   createRingTexture,
 } from "../utils/textureGenerator.js";
 import { groupsInfo } from "../data/projectsData.js";
+import { PlanetLabel } from "./PlanetLabel.jsx";
+import { setPlanetPosition } from "../utils/planetPositions.js";
 
 export function Planet({
   data,
@@ -76,6 +77,8 @@ export function Planet({
     const x = Math.cos(angle) * r;
     const z = Math.sin(angle) * r;
 
+    setPlanetPosition(data.id, x, 0, z);
+
     if (groupRef.current) {
       groupRef.current.position.set(x, 0, z);
     }
@@ -101,9 +104,13 @@ export function Planet({
         ref={meshRef}
         onClick={(e) => {
           e.stopPropagation();
-          const angle = angleRef.current;
-          const r = data.orbitRadius || 50;
-          const pos = [Math.cos(angle) * r, 0, Math.sin(angle) * r];
+          const pos = groupRef.current
+            ? [groupRef.current.position.x, groupRef.current.position.y, groupRef.current.position.z]
+            : (() => {
+                const angle = angleRef.current;
+                const r = data.orbitRadius || 50;
+                return [Math.cos(angle) * r, 0, Math.sin(angle) * r];
+              })();
           onSelect(data, pos);
         }}
         onPointerOver={(e) => {
@@ -168,42 +175,12 @@ export function Planet({
       )}
 
       {showLabels && !isDimmed && (
-        <Html
+        <PlanetLabel
           position={[0, (data.radius || 6) + 5, 0]}
-          center
-          distanceFactor={85}
-          style={{ pointerEvents: "none", userSelect: "none" }}
-        >
-          <div
-            style={{
-              background: "rgba(6, 16, 34, 0.88)",
-              border: `1px solid ${colorHex}`,
-              borderRadius: "8px",
-              padding: "4px 12px",
-              color: "#ffffff",
-              textAlign: "center",
-              boxShadow: "0 4px 15px rgba(0,0,0,0.6)",
-              backdropFilter: "blur(6px)",
-              whiteSpace: "nowrap",
-            }}
-          >
-            <div style={{ fontWeight: 800, fontSize: "13px", color: "#ffffff" }}>
-              {titleText}
-            </div>
-            {rankTag && (
-              <div
-                style={{
-                  fontWeight: 700,
-                  fontSize: "9px",
-                  color: colorHex,
-                  letterSpacing: "0.5px",
-                }}
-              >
-                {rankTag.toUpperCase()}
-              </div>
-            )}
-          </div>
-        </Html>
+          color={colorHex}
+          title={titleText}
+          subtitle={rankTag ? rankTag.toUpperCase() : ""}
+        />
       )}
     </group>
   );

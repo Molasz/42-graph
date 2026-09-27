@@ -39,8 +39,11 @@ export function App() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  const handleSelectPlanet = useCallback((data) => {
-    setSelectedPlanet(data);
+  const handleSelectPlanet = useCallback((data, position) => {
+    setSelectedPlanet({
+      ...data,
+      currentPosition: position || data.currentPosition || null,
+    });
   }, []);
 
   const handleHoverPlanet = useCallback((data, event) => {
@@ -53,6 +56,8 @@ export function App() {
       mousePos: { x: event.clientX, y: event.clientY },
     });
   }, []);
+
+  const handleResetViewPreset = useCallback(() => setViewPreset(null), []);
 
   const handleSelectProjectById = useCallback((id) => {
     if (id === "sun_42") {
@@ -70,7 +75,10 @@ export function App() {
     }
     const target = projects.find((p) => p.id === id);
     if (target) {
-      setSelectedPlanet(target);
+      setSelectedPlanet({
+        ...target,
+        currentPosition: null,
+      });
     }
   }, []);
 
@@ -88,7 +96,7 @@ export function App() {
         showOrbits={showOrbits}
         showConstellations={showConstellations}
         viewPreset={viewPreset}
-        onResetViewPreset={() => setViewPreset(null)}
+        onResetViewPreset={handleResetViewPreset}
       />
 
       <HUD

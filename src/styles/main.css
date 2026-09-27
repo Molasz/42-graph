@@ -530,6 +530,45 @@ header {
   border-color: var(--color-primary);
 }
 
+.planet-label {
+  --label-scale: 1;
+  transform: scale(var(--label-scale));
+  transform-origin: center bottom;
+  background: rgba(6, 16, 34, 0.9);
+  border: 1px solid var(--color-primary);
+  border-radius: clamp(6px, 0.6vw, 10px);
+  padding: clamp(3px, 0.35vw + 2px, 7px) clamp(8px, 0.8vw + 4px, 16px);
+  color: #ffffff;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.planet-label-title {
+  font-weight: 800;
+  font-size: clamp(11px, 0.7vw + 9px, 15px);
+  color: #ffffff;
+}
+
+.planet-label-sub {
+  font-weight: 700;
+  font-size: clamp(8px, 0.4vw + 7px, 11px);
+  letter-spacing: 0.5px;
+  margin-top: 1px;
+}
+
+.planet-label--sun .planet-label-title {
+  color: #2dd4bf;
+}
+
+.planet-label--sun .planet-label-sub {
+  color: #ffffff;
+  opacity: 0.85;
+}
+
 @media (max-width: 900px) {
   .header-center {
     display: none;

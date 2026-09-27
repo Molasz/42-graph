@@ -1,10 +1,11 @@
 import React, { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { Html } from "@react-three/drei";
 import { createProceduralPlanetTexture } from "../utils/textureGenerator.js";
+import { PlanetLabel } from "./PlanetLabel.jsx";
+import { setPlanetPosition } from "../utils/planetPositions.js";
 
-export function Sun({ onSelect, onHover }) {
+export function Sun({ onSelect, onHover, showLabels = true }) {
   const sunMeshRef = useRef();
 
   const texture = useMemo(
@@ -13,6 +14,7 @@ export function Sun({ onSelect, onHover }) {
   );
 
   useFrame((_, delta) => {
+    setPlanetPosition("sun_42", 0, 0, 0);
     if (sunMeshRef.current) {
       sunMeshRef.current.rotation.y += delta * 0.2;
     }
@@ -56,24 +58,15 @@ export function Sun({ onSelect, onHover }) {
         />
       </mesh>
 
-      <Html position={[0, 19, 0]} center distanceFactor={85} style={{ pointerEvents: "none" }}>
-        <div
-          style={{
-            background: "rgba(6, 16, 34, 0.88)",
-            border: "1px solid #14b8a6",
-            borderRadius: "8px",
-            padding: "4px 12px",
-            color: "#ffffff",
-            textAlign: "center",
-            boxShadow: "0 4px 15px rgba(0, 0, 0, 0.6)",
-            backdropFilter: "blur(6px)",
-            whiteSpace: "nowrap",
-          }}
-        >
-          <div style={{ fontWeight: 800, fontSize: "14px", color: "#2dd4bf" }}>42</div>
-          <div style={{ fontWeight: 700, fontSize: "8.5px", color: "#ffffff", opacity: 0.85 }}>BARCELONA</div>
-        </div>
-      </Html>
+      {showLabels && (
+        <PlanetLabel
+          position={[0, 19, 0]}
+          color="#14b8a6"
+          title="42"
+          subtitle="BARCELONA"
+          emphasized
+        />
+      )}
     </group>
   );
 }
