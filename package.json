@@ -1,0 +1,29 @@
+{
+  "name": "42-graph",
+  "version": "1.0.0",
+  "description": "An interactive mind map of my journey through the [42 Barcelona](https://42barcelona.com) curriculum.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "bugs": {
+    "url": "https://github.com/Molasz/42-graph/issues"
+  },
+  "homepage": "https://github.com/Molasz/42-graph#readme",
+  "dependencies": {
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.1",
+    "@tweenjs/tween.js": "^25.0.0",
+    "lucide-react": "^1.48.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "three": "^0.186.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.1",
+    "vite": "^8.3.1"
+  }
+}
