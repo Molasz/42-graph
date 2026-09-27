@@ -18,8 +18,6 @@ export function HUD({
   onChangeSpeed,
   showOrbits,
   onToggleOrbits,
-  showConstellations,
-  onToggleConstellations,
   showLabels,
   onToggleLabels,
   onSetViewPreset,
@@ -27,12 +25,10 @@ export function HUD({
 }) {
   const filterPills = [
     { id: "all", label: "All Systems" },
-    { id: "piscine", label: "Piscine Bootcamp" },
+    { id: "piscine", label: "Piscine" },
     { id: "common", label: "Common Core" },
-    { id: "outer_asm", label: "Low-Level & ASM" },
-    { id: "outer_sys", label: "UNIX & Systems" },
-    { id: "outer_hardware", label: "Hardware & Embedded" },
-    { id: "tools", label: "Tools & Config" },
+    { id: "outer", label: "Outer Projects" },
+    { id: "tools", label: "Tools" },
     { id: "work", label: "Work Experience" },
   ];
 
@@ -145,7 +141,7 @@ export function HUD({
           </div>
 
           <div className="control-row">
-            <span>Visual Overlays</span>
+            <span>Orbits & Labels</span>
             <div className="speed-btns">
               <button
                 className={`btn ${showOrbits ? "active" : ""}`}
@@ -153,13 +149,6 @@ export function HUD({
                 onClick={onToggleOrbits}
               >
                 Orbits
-              </button>
-              <button
-                className={`btn ${showConstellations ? "active" : ""}`}
-                style={{ height: "24px", padding: "0 6px", fontSize: "10px" }}
-                onClick={onToggleConstellations}
-              >
-                Links
               </button>
               <button
                 className={`btn ${showLabels ? "active" : ""}`}

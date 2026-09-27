@@ -66,16 +66,6 @@ export function Planet({
     [data.glowColor, colorHex]
   );
 
-  const moonData = useMemo(() => {
-    if (!data.isCrownProject) return [];
-    return [
-      { distance: (data.radius || 6) * 2.2, speed: 1.5, angle: 0 },
-      { distance: (data.radius || 6) * 3.0, speed: 2.2, angle: (2 * Math.PI) / 3 },
-    ];
-  }, [data.isCrownProject, data.radius]);
-
-  const moonsRefs = useRef([]);
-
   useFrame((_, delta) => {
     if (!isOrbitPaused) {
       angleRef.current += (data.orbitSpeed || 0.1) * 0.25 * delta * timeSpeed;
@@ -96,20 +86,6 @@ export function Planet({
 
     if (ringRef.current) {
       ringRef.current.rotation.z += delta * 0.08;
-    }
-
-    if (moonData.length > 0 && moonsRefs.current.length > 0) {
-      moonData.forEach((m, idx) => {
-        m.angle += delta * m.speed * timeSpeed;
-        const moonMesh = moonsRefs.current[idx];
-        if (moonMesh) {
-          moonMesh.position.set(
-            Math.cos(m.angle) * m.distance,
-            Math.sin(m.angle * 2) * 1.2,
-            Math.sin(m.angle) * m.distance
-          );
-        }
-      });
     }
   });
 
@@ -190,20 +166,6 @@ export function Planet({
           />
         </mesh>
       )}
-
-      {moonData.map((_, idx) => (
-        <mesh
-          key={idx}
-          ref={(el) => (moonsRefs.current[idx] = el)}
-        >
-          <sphereGeometry args={[1.2, 12, 12]} />
-          <meshStandardMaterial
-            color={0x99f6e4}
-            emissive={0x0d9488}
-            emissiveIntensity={0.6}
-          />
-        </mesh>
-      ))}
 
       {showLabels && !isDimmed && (
         <Html
