@@ -14,7 +14,7 @@ An interactive 3D Solar System visualization of my journey through the [42 Barce
 
 ## Features
 
-- **3D Solar System Architecture**: The 42 Core sun at the center with concentric planetary orbits for Common Core (Ranks 0 to 6), Piscine bootcamp, Outer projects, Tools & Config, and Work Experience.
+- **3D Solar System Architecture**: The 42 Core sun at the center with concentric planetary orbits for Common Core (Ranks 0 to 6), Piscine bootcamp, Outer projects, and Work Experience.
 - **Interactive Celestial Spheres**: Every project is rendered as an interactive 3D sphere with procedural textures, atmospheres, planetary rings, and floating badges.
 - **Constellation Dependency Beams**: Dynamic energy lines connecting prerequisites and curriculum pathways in real-time 3D space.
 - **Cinematic Orbit Camera**: OrbitControls, smooth focus zoom on planets, custom camera angles (Core view, Outer belt, Top-down map).

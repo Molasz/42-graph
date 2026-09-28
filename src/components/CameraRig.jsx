@@ -19,7 +19,6 @@ const VIEW_PRESETS = {
 
 function cameraOffsetForRadius(radius) {
   const r = radius || 6;
-  // Offset amb separació còmoda per veure el planeta i el seu context
   return new THREE.Vector3(0, r * 3.2 + 18, r * 5.5 + 38);
 }
 
@@ -36,36 +35,41 @@ export function CameraRig({ targetFocus, viewPreset, onResetViewPreset }) {
   const { camera } = useThree();
   const controlsRef = useRef();
   const animatingRef = useRef(false);
+  const lastPlanetPosRef = useRef(null);
+
   const focusId = targetFocus?.id ?? null;
   const focusRadius = targetFocus?.radius;
   const focusToken = targetFocus?.token ?? focusId;
 
-  const animateCamera = useCallback((position, target, duration = 1000, easing = Easing.Cubic.InOut) => {
-    tweenGroup.getAll().forEach((t) => t.stop());
-    tweenGroup.removeAll();
-    animatingRef.current = true;
+  const animateCamera = useCallback(
+    (position, target, duration = 1000, easing = Easing.Cubic.InOut) => {
+      tweenGroup.getAll().forEach((t) => t.stop());
+      tweenGroup.removeAll();
+      animatingRef.current = true;
 
-    const controls = controlsRef.current;
-    if (controls) controls.enabled = false;
+      const controls = controlsRef.current;
+      if (controls) controls.enabled = false;
 
-    new Tween(camera.position, tweenGroup)
-      .to(position, duration)
-      .easing(easing)
-      .start();
-
-    if (controls) {
-      new Tween(controls.target, tweenGroup)
-        .to(target, duration)
+      new Tween(camera.position, tweenGroup)
+        .to(position, duration)
         .easing(easing)
-        .onComplete(() => {
-          animatingRef.current = false;
-          if (controlsRef.current) controlsRef.current.enabled = true;
-        })
         .start();
-    } else {
-      animatingRef.current = false;
-    }
-  }, [camera]);
+
+      if (controls) {
+        new Tween(controls.target, tweenGroup)
+          .to(target, duration)
+          .easing(easing)
+          .onComplete(() => {
+            animatingRef.current = false;
+            if (controlsRef.current) controlsRef.current.enabled = true;
+          })
+          .start();
+      } else {
+        animatingRef.current = false;
+      }
+    },
+    [camera]
+  );
 
   // Animació intro inicial
   useEffect(() => {
@@ -77,16 +81,22 @@ export function CameraRig({ targetFocus, viewPreset, onResetViewPreset }) {
   useEffect(() => {
     if (!viewPreset || !VIEW_PRESETS[viewPreset]) return;
     const preset = VIEW_PRESETS[viewPreset];
+    lastPlanetPosRef.current = null;
     animateCamera(preset.position, preset.target);
     onResetViewPreset();
   }, [viewPreset, animateCamera, onResetViewPreset]);
 
   // Zoom suau cap al planeta seleccionat en fer click o canviar de selecció
   useEffect(() => {
-    if (!focusId) return;
+    if (!focusId) {
+      lastPlanetPosRef.current = null;
+      return;
+    }
 
     const livePos = resolveFocusPosition(targetFocus);
     if (!livePos) return;
+
+    lastPlanetPosRef.current = new THREE.Vector3(livePos[0], livePos[1], livePos[2]);
 
     const offset = cameraOffsetForRadius(focusRadius);
     const targetCamPos = new THREE.Vector3(livePos[0], livePos[1], livePos[2]).add(offset);
@@ -101,6 +111,34 @@ export function CameraRig({ targetFocus, viewPreset, onResetViewPreset }) {
 
   useFrame(() => {
     tweenGroup.update();
+
+    // Seguir el planeta en la seva òrbita en temps real un cop acabat el tween
+    if (focusId && focusId !== "sun_42") {
+      const currentPosArray = getPlanetPosition(focusId);
+      if (currentPosArray) {
+        if (!animatingRef.current && lastPlanetPosRef.current) {
+          const deltaX = currentPosArray[0] - lastPlanetPosRef.current.x;
+          const deltaY = currentPosArray[1] - lastPlanetPosRef.current.y;
+          const deltaZ = currentPosArray[2] - lastPlanetPosRef.current.z;
+
+          camera.position.x += deltaX;
+          camera.position.y += deltaY;
+          camera.position.z += deltaZ;
+
+          if (controlsRef.current) {
+            controlsRef.current.target.x += deltaX;
+            controlsRef.current.target.y += deltaY;
+            controlsRef.current.target.z += deltaZ;
+          }
+        }
+
+        if (!lastPlanetPosRef.current) {
+          lastPlanetPosRef.current = new THREE.Vector3();
+        }
+        lastPlanetPosRef.current.set(currentPosArray[0], currentPosArray[1], currentPosArray[2]);
+      }
+    }
+
     if (controlsRef.current) {
       controlsRef.current.update();
     }

@@ -28,28 +28,14 @@ export function HUD({
   searchInputRef,
 }) {
   const [isControlsOpen, setIsControlsOpen] = useState(false);
-  const [activeTechFilter, setActiveTechFilter] = useState("");
 
   const filterPills = [
     { id: "all", label: "All Systems" },
     { id: "piscine", label: "Piscine" },
     { id: "common", label: "Common Core" },
     { id: "outer", label: "Outer Projects" },
-    { id: "tools", label: "Tools" },
     { id: "work", label: "Work Experience" },
   ];
-
-  const quickTechs = ["C", "C++", "Docker", "Assembly", "Graphics / 3D", "Web / API"];
-
-  const handleTechClick = (tech) => {
-    if (activeTechFilter === tech) {
-      setActiveTechFilter("");
-      onSearchChange("");
-    } else {
-      setActiveTechFilter(tech);
-      onSearchChange(tech);
-    }
-  };
 
   return (
     <>
@@ -77,7 +63,6 @@ export function HUD({
                 placeholder="Search projects, skills, tech (e.g. C++, Docker, Minishell)..."
                 value={searchQuery}
                 onChange={(e) => {
-                  setActiveTechFilter("");
                   onSearchChange(e.target.value);
                 }}
               />
@@ -85,7 +70,6 @@ export function HUD({
                 <button
                   className="search-clear-btn"
                   onClick={() => {
-                    setActiveTechFilter("");
                     onSearchChange("");
                   }}
                   title="Clear search"
@@ -93,19 +77,6 @@ export function HUD({
                   <X size={14} />
                 </button>
               )}
-            </div>
-
-            {/* Quick Tech Tag Filters */}
-            <div className="quick-tech-tags">
-              {quickTechs.map((tech) => (
-                <button
-                  key={tech}
-                  className={`tech-chip ${activeTechFilter === tech ? "active" : ""}`}
-                  onClick={() => handleTechClick(tech)}
-                >
-                  {tech}
-                </button>
-              ))}
             </div>
           </div>
 
