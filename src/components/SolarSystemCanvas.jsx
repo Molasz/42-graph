@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import { Sun } from "./Sun.jsx";
@@ -22,6 +22,21 @@ export function SolarSystemCanvas({
   viewPreset,
   onResetViewPreset,
 }) {
+  const [planetPositions, setPlanetPositions] = useState({});
+
+  const handlePositionUpdate = useCallback((id, pos) => {
+    setPlanetPositions((prev) => {
+      if (
+        prev[id] &&
+        Math.abs(prev[id][0] - pos[0]) < 0.2 &&
+        Math.abs(prev[id][2] - pos[2]) < 0.2
+      ) {
+        return prev;
+      }
+      return { ...prev, [id]: pos };
+    });
+  }, []);
+
   const searchLower = searchQuery.trim().toLowerCase();
 
   const isPlanetDimmed = (p) => {
@@ -54,7 +69,7 @@ export function SolarSystemCanvas({
           getPlanetPosition(selectedPlanet.id) ||
           (selectedPlanet.isSun
             ? [0, 0, 0]
-            : [
+            : planetPositions[selectedPlanet.id] || [
                 Math.cos(selectedPlanet.initialAngle || 0) * (selectedPlanet.orbitRadius || 50),
                 0,
                 Math.sin(selectedPlanet.initialAngle || 0) * (selectedPlanet.orbitRadius || 50),
@@ -89,8 +104,8 @@ export function SolarSystemCanvas({
       <fogExp2 attach="fog" args={["#060c18", 0.0006]} />
 
       <ambientLight color={0x0c2538} intensity={1.8} />
-      <directionalLight color={0x14b8a6} intensity={0.8} position={[0, 200, 100]} />
-      <directionalLight color={0x0284c7} intensity={0.5} position={[0, -100, -100]} />
+      <directionalLight color={0x14b8a6} intensity={0.9} position={[0, 200, 100]} />
+      <directionalLight color={0x0284c7} intensity={0.6} position={[0, -100, -100]} />
 
       <Starfield />
 
@@ -111,6 +126,7 @@ export function SolarSystemCanvas({
           showLabels={showLabels}
           onSelect={(data, pos) => onSelectPlanet(data, pos)}
           onHover={(data, e) => onHoverPlanet(data, e)}
+          onPositionUpdate={handlePositionUpdate}
         />
       ))}
 

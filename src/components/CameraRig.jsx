@@ -19,7 +19,8 @@ const VIEW_PRESETS = {
 
 function cameraOffsetForRadius(radius) {
   const r = radius || 6;
-  return new THREE.Vector3(0, Math.max(r * 1.8, 12), Math.max(r * 3.8, 22));
+  // Offset amb separació còmoda per veure el planeta i el seu context
+  return new THREE.Vector3(0, r * 3.2 + 18, r * 5.5 + 38);
 }
 
 function resolveFocusPosition(targetFocus) {
@@ -66,11 +67,13 @@ export function CameraRig({ targetFocus, viewPreset, onResetViewPreset }) {
     }
   }, [camera]);
 
+  // Animació intro inicial
   useEffect(() => {
     camera.position.set(0, 450, 750);
     animateCamera(DEFAULT_CAM_POS, DEFAULT_TARGET, 2000, Easing.Quadratic.Out);
   }, [camera, animateCamera]);
 
+  // Presets de càmera seleccionats des del HUD (Core, Outer, Top Map, Reset)
   useEffect(() => {
     if (!viewPreset || !VIEW_PRESETS[viewPreset]) return;
     const preset = VIEW_PRESETS[viewPreset];
@@ -78,6 +81,7 @@ export function CameraRig({ targetFocus, viewPreset, onResetViewPreset }) {
     onResetViewPreset();
   }, [viewPreset, animateCamera, onResetViewPreset]);
 
+  // Zoom suau cap al planeta seleccionat en fer click o canviar de selecció
   useEffect(() => {
     if (!focusId) return;
 
@@ -90,7 +94,7 @@ export function CameraRig({ targetFocus, viewPreset, onResetViewPreset }) {
     animateCamera(
       { x: targetCamPos.x, y: targetCamPos.y, z: targetCamPos.z },
       { x: livePos[0], y: livePos[1], z: livePos[2] },
-      1000,
+      900,
       Easing.Cubic.Out
     );
   }, [focusId, focusRadius, focusToken, animateCamera, targetFocus]);
@@ -106,9 +110,9 @@ export function CameraRig({ targetFocus, viewPreset, onResetViewPreset }) {
     <OrbitControls
       ref={controlsRef}
       enableDamping
-      dampingFactor={0.05}
+      dampingFactor={0.06}
       minDistance={15}
-      maxDistance={900}
+      maxDistance={950}
       maxPolarAngle={Math.PI * 0.88}
     />
   );

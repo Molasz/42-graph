@@ -44,9 +44,13 @@ export function Sun({ onSelect, onHover, showLabels = true }) {
         }}
         onPointerOver={(e) => {
           e.stopPropagation();
+          document.body.style.cursor = "pointer";
           onHover(sunData, e);
         }}
-        onPointerOut={() => onHover(null)}
+        onPointerOut={() => {
+          document.body.style.cursor = "default";
+          onHover(null);
+        }}
       >
         <sphereGeometry args={[14, 32, 32]} />
         <meshStandardMaterial

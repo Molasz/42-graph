@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Search,
   RotateCcw,
   Mail,
   Play,
   Pause,
+  Layers,
+  Sparkles,
+  Sliders,
+  X,
 } from "lucide-react";
 
 export function HUD({
@@ -23,6 +27,9 @@ export function HUD({
   onSetViewPreset,
   searchInputRef,
 }) {
+  const [isControlsOpen, setIsControlsOpen] = useState(false);
+  const [activeTechFilter, setActiveTechFilter] = useState("");
+
   const filterPills = [
     { id: "all", label: "All Systems" },
     { id: "piscine", label: "Piscine" },
@@ -31,6 +38,18 @@ export function HUD({
     { id: "tools", label: "Tools" },
     { id: "work", label: "Work Experience" },
   ];
+
+  const quickTechs = ["C", "C++", "Docker", "Assembly", "Graphics / 3D", "Web / API"];
+
+  const handleTechClick = (tech) => {
+    if (activeTechFilter === tech) {
+      setActiveTechFilter("");
+      onSearchChange("");
+    } else {
+      setActiveTechFilter(tech);
+      onSearchChange(tech);
+    }
+  };
 
   return (
     <>
@@ -44,7 +63,7 @@ export function HUD({
               className="logo-badge"
             >
               <div className="logo-icon">42</div>
-              <span>molasz-a | Solar System</span>
+              <span className="logo-text">molasz-a | Solar System</span>
             </a>
           </div>
 
@@ -57,14 +76,42 @@ export function HUD({
                 className="search-input"
                 placeholder="Search projects, skills, tech (e.g. C++, Docker, Minishell)..."
                 value={searchQuery}
-                onChange={(e) => onSearchChange(e.target.value)}
+                onChange={(e) => {
+                  setActiveTechFilter("");
+                  onSearchChange(e.target.value);
+                }}
               />
+              {searchQuery && (
+                <button
+                  className="search-clear-btn"
+                  onClick={() => {
+                    setActiveTechFilter("");
+                    onSearchChange("");
+                  }}
+                  title="Clear search"
+                >
+                  <X size={14} />
+                </button>
+              )}
+            </div>
+
+            {/* Quick Tech Tag Filters */}
+            <div className="quick-tech-tags">
+              {quickTechs.map((tech) => (
+                <button
+                  key={tech}
+                  className={`tech-chip ${activeTechFilter === tech ? "active" : ""}`}
+                  onClick={() => handleTechClick(tech)}
+                >
+                  {tech}
+                </button>
+              ))}
             </div>
           </div>
 
           <div className="header-right">
             <button
-              className="btn"
+              className="btn btn-desktop-only"
               onClick={() => onSetViewPreset("reset")}
               title="Reset Camera"
             >
@@ -74,39 +121,65 @@ export function HUD({
 
             <a
               href="mailto:molasz.dev@gmail.com"
-              className="btn"
+              className="btn btn-contact"
               title="Contact Email"
             >
               <Mail size={16} />
               <span className="email-text">molasz.dev@gmail.com</span>
             </a>
+
+            {/* Botó toggle controls per a mòbil / pantalles reduïdes */}
+            <button
+              className={`btn btn-toggle-controls ${isControlsOpen ? "active" : ""}`}
+              onClick={() => setIsControlsOpen((prev) => !prev)}
+              title="Toggle Controls"
+            >
+              <Sliders size={16} />
+            </button>
           </div>
         </div>
       </header>
 
-      <div className="floating-controls">
+      {/* Caixa flotant de controls */}
+      <div className={`floating-controls ${isControlsOpen ? "mobile-open" : ""}`}>
         <div className="controls-card">
+          <div className="controls-card-header">
+            <span className="controls-card-title">System Controls</span>
+            <button
+              className="controls-card-close"
+              onClick={() => setIsControlsOpen(false)}
+            >
+              <X size={14} />
+            </button>
+          </div>
+
           <div className="control-row">
-            <span>Camera Angle</span>
+            <span>Camera View</span>
             <div className="speed-btns">
               <button
-                className="btn"
-                style={{ height: "24px", padding: "0 6px", fontSize: "10px" }}
-                onClick={() => onSetViewPreset("core")}
+                className="btn-sm"
+                onClick={() => {
+                  onSetViewPreset("core");
+                  setIsControlsOpen(false);
+                }}
               >
                 Core
               </button>
               <button
-                className="btn"
-                style={{ height: "24px", padding: "0 6px", fontSize: "10px" }}
-                onClick={() => onSetViewPreset("outer")}
+                className="btn-sm"
+                onClick={() => {
+                  onSetViewPreset("outer");
+                  setIsControlsOpen(false);
+                }}
               >
                 Outer
               </button>
               <button
-                className="btn"
-                style={{ height: "24px", padding: "0 6px", fontSize: "10px" }}
-                onClick={() => onSetViewPreset("top")}
+                className="btn-sm"
+                onClick={() => {
+                  onSetViewPreset("top");
+                  setIsControlsOpen(false);
+                }}
               >
                 Top Map
               </button>
@@ -116,11 +189,10 @@ export function HUD({
           <div className="control-row">
             <span>Orbit Motion</span>
             <button
-              className={`btn ${isOrbitPaused ? "active" : ""}`}
-              style={{ height: "24px", padding: "0 8px", fontSize: "10px" }}
+              className={`btn-sm ${isOrbitPaused ? "active" : ""}`}
               onClick={onToggleOrbit}
             >
-              {isOrbitPaused ? <Play size={10} /> : <Pause size={10} />}
+              {isOrbitPaused ? <Play size={12} /> : <Pause size={12} />}
               <span>{isOrbitPaused ? "Resume" : "Pause"}</span>
             </button>
           </div>
@@ -141,21 +213,23 @@ export function HUD({
           </div>
 
           <div className="control-row">
-            <span>Orbits & Labels</span>
+            <span>Display Toggles</span>
             <div className="speed-btns">
               <button
-                className={`btn ${showOrbits ? "active" : ""}`}
-                style={{ height: "24px", padding: "0 6px", fontSize: "10px" }}
+                className={`btn-sm ${showOrbits ? "active" : ""}`}
                 onClick={onToggleOrbits}
+                title="Toggle orbit rings"
               >
-                Orbits
+                <Layers size={12} />
+                <span>Orbits</span>
               </button>
               <button
-                className={`btn ${showLabels ? "active" : ""}`}
-                style={{ height: "24px", padding: "0 6px", fontSize: "10px" }}
+                className={`btn-sm ${showLabels ? "active" : ""}`}
                 onClick={onToggleLabels}
+                title="Toggle planet labels"
               >
-                Tags
+                <Sparkles size={12} />
+                <span>Tags</span>
               </button>
             </div>
           </div>

@@ -14,7 +14,6 @@ export function App() {
   const [timeSpeed, setTimeSpeed] = useState(1.0);
   const [showLabels, setShowLabels] = useState(true);
   const [showOrbits, setShowOrbits] = useState(true);
-  const [showConstellations, setShowConstellations] = useState(true);
   const [viewPreset, setViewPreset] = useState(null);
 
   const searchInputRef = useRef(null);
@@ -88,13 +87,13 @@ export function App() {
         selectedPlanet={selectedPlanet}
         onSelectPlanet={handleSelectPlanet}
         onHoverPlanet={handleHoverPlanet}
+        onUserInteract={() => setSelectedPlanet(null)}
         searchQuery={searchQuery}
         activeGroup={activeGroup}
         isOrbitPaused={isOrbitPaused}
         timeSpeed={timeSpeed}
         showLabels={showLabels}
         showOrbits={showOrbits}
-        showConstellations={showConstellations}
         viewPreset={viewPreset}
         onResetViewPreset={handleResetViewPreset}
       />
@@ -110,8 +109,6 @@ export function App() {
         onChangeSpeed={setTimeSpeed}
         showOrbits={showOrbits}
         onToggleOrbits={() => setShowOrbits((prev) => !prev)}
-        showConstellations={showConstellations}
-        onToggleConstellations={() => setShowConstellations((prev) => !prev)}
         showLabels={showLabels}
         onToggleLabels={() => setShowLabels((prev) => !prev)}
         onSetViewPreset={setViewPreset}

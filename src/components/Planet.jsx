@@ -9,6 +9,8 @@ import { groupsInfo } from "../data/projectsData.js";
 import { PlanetLabel } from "./PlanetLabel.jsx";
 import { setPlanetPosition } from "../utils/planetPositions.js";
 
+const noRaycast = () => {};
+
 export function Planet({
   data,
   isOrbitPaused,
@@ -55,8 +57,8 @@ export function Planet({
           uniform vec3 color;
           varying vec3 vNormal;
           void main() {
-            float intensity = pow(0.6 - dot(vNormal, vec3(0, 0, 1.0)), 2.0);
-            gl_FragColor = vec4(color, intensity * 0.7);
+            float intensity = pow(0.65 - dot(vNormal, vec3(0, 0, 1.0)), 2.2);
+            gl_FragColor = vec4(color, intensity * 0.75);
           }
         `,
         blending: THREE.AdditiveBlending,
@@ -92,6 +94,18 @@ export function Planet({
     }
   });
 
+  const handleClick = (e) => {
+    e.stopPropagation();
+    const pos = groupRef.current
+      ? [groupRef.current.position.x, groupRef.current.position.y, groupRef.current.position.z]
+      : (() => {
+          const angle = angleRef.current;
+          const r = data.orbitRadius || 50;
+          return [Math.cos(angle) * r, 0, Math.sin(angle) * r];
+        })();
+    onSelect(data, pos);
+  };
+
   const titleText = Array.isArray(data.title) ? data.title.join(" ") : data.title;
   const rankTag =
     data.rank !== undefined && data.rank >= 0
@@ -100,24 +114,19 @@ export function Planet({
 
   return (
     <group ref={groupRef}>
+      {/* Esfera del planeta principal */}
       <mesh
         ref={meshRef}
-        onClick={(e) => {
-          e.stopPropagation();
-          const pos = groupRef.current
-            ? [groupRef.current.position.x, groupRef.current.position.y, groupRef.current.position.z]
-            : (() => {
-                const angle = angleRef.current;
-                const r = data.orbitRadius || 50;
-                return [Math.cos(angle) * r, 0, Math.sin(angle) * r];
-              })();
-          onSelect(data, pos);
-        }}
+        onClick={handleClick}
         onPointerOver={(e) => {
           e.stopPropagation();
+          document.body.style.cursor = "pointer";
           onHover(data, e);
         }}
-        onPointerOut={() => onHover(null)}
+        onPointerOut={() => {
+          document.body.style.cursor = "default";
+          onHover(null);
+        }}
       >
         <sphereGeometry args={[data.radius || 6, 32, 32]} />
         <meshStandardMaterial
@@ -131,16 +140,28 @@ export function Planet({
         />
       </mesh>
 
+      {/* Resplendor atmosfèric (ignora raycast per no bloquejar el click) */}
       {!isDimmed && (
-        <mesh material={atmosphereMaterial}>
+        <mesh raycast={noRaycast} material={atmosphereMaterial}>
           <sphereGeometry args={[(data.radius || 6) * 1.15, 24, 24]} />
         </mesh>
       )}
 
+      {/* Anell planetari (ex: saturn-like) */}
       {data.ring && (
         <mesh
           ref={ringRef}
           rotation={[Math.PI * 0.45, Math.PI * 0.1, 0]}
+          onClick={handleClick}
+          onPointerOver={(e) => {
+            e.stopPropagation();
+            document.body.style.cursor = "pointer";
+            onHover(data, e);
+          }}
+          onPointerOut={() => {
+            document.body.style.cursor = "default";
+            onHover(null);
+          }}
         >
           <ringGeometry
             args={[
@@ -159,21 +180,39 @@ export function Planet({
         </mesh>
       )}
 
+      {/* Anell indicador estàtic al voltant del planeta quan està seleccionat */}
       {isSelected && (
-        <mesh rotation={[Math.PI / 2, 0, 0]}>
-          <ringGeometry
-            args={[(data.radius || 6) * 1.35, (data.radius || 6) * 1.45, 36]}
-          />
-          <meshBasicMaterial
-            color={0xffffff}
-            side={THREE.DoubleSide}
-            transparent
-            opacity={0.9}
-            depthTest={false}
-          />
-        </mesh>
+        <group>
+          {/* Anell principal amb el color del grup/projecte */}
+          <mesh raycast={noRaycast} rotation={[Math.PI / 2, 0, 0]}>
+            <ringGeometry
+              args={[(data.radius || 6) * 1.35, (data.radius || 6) * 1.5, 64]}
+            />
+            <meshBasicMaterial
+              color={colorHex || 0x10ecd3}
+              side={THREE.DoubleSide}
+              transparent
+              opacity={0.95}
+              depthTest={false}
+            />
+          </mesh>
+          {/* Anell secundari exterior subtil */}
+          <mesh raycast={noRaycast} rotation={[Math.PI / 2, 0, 0]}>
+            <ringGeometry
+              args={[(data.radius || 6) * 1.6, (data.radius || 6) * 1.7, 64]}
+            />
+            <meshBasicMaterial
+              color="#ffffff"
+              side={THREE.DoubleSide}
+              transparent
+              opacity={0.45}
+              depthTest={false}
+            />
+          </mesh>
+        </group>
       )}
 
+      {/* Etiqueta flotant de text */}
       {showLabels && !isDimmed && (
         <PlanetLabel
           position={[0, (data.radius || 6) + 5, 0]}

@@ -66,31 +66,6 @@ export function ProjectDrawer({
       <div className="drawer-section-title">Overview</div>
       <p className="drawer-desc">{data.desc || ""}</p>
 
-      {data.dependencies && data.dependencies.length > 0 && (
-        <div className="drawer-dependencies">
-          <div className="drawer-section-title">Prerequisites & Relations</div>
-          <div className="dep-pills">
-            {data.dependencies.map((depId) => {
-              const depPlanet = projects.find((p) => p.id === depId);
-              const depName = depPlanet
-                ? Array.isArray(depPlanet.title)
-                  ? depPlanet.title.join(" ")
-                  : depPlanet.title
-                : depId;
-              return (
-                <button
-                  key={depId}
-                  className="dep-pill"
-                  onClick={() => onSelectProjectById(depId)}
-                >
-                  ⮑ {depName}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
       <div className="drawer-actions">
         {data.link && (
           <a
