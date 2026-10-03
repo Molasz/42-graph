@@ -1,14 +1,16 @@
 import React, { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import { useEngine } from "../utils/EngineContext.js";
 
 export function Starfield() {
+  const { starCount } = useEngine();
   const deepStarsRef = useRef();
   const midCloudRef = useRef();
   const floatingDustRef = useRef();
 
   const { deepPositions, deepColors } = useMemo(() => {
-    const count = 1800;
+    const count = Math.round(1800 * starCount);
     const positions = new Float32Array(count * 3);
     const colors = new Float32Array(count * 3);
 
@@ -35,10 +37,10 @@ export function Starfield() {
     }
 
     return { deepPositions: positions, deepColors: colors };
-  }, []);
+  }, [starCount]);
 
   const { midPositions, midColors } = useMemo(() => {
-    const count = 500;
+    const count = Math.round(500 * starCount);
     const positions = new Float32Array(count * 3);
     const colors = new Float32Array(count * 3);
 
@@ -66,10 +68,10 @@ export function Starfield() {
     }
 
     return { midPositions: positions, midColors: colors };
-  }, []);
+  }, [starCount]);
 
   const { dustPositions, dustColors } = useMemo(() => {
-    const count = 180;
+    const count = Math.round(180 * starCount);
     const positions = new Float32Array(count * 3);
     const colors = new Float32Array(count * 3);
 
@@ -90,7 +92,7 @@ export function Starfield() {
     }
 
     return { dustPositions: positions, dustColors: colors };
-  }, []);
+  }, [starCount]);
 
   useFrame((_, delta) => {
     if (deepStarsRef.current) {

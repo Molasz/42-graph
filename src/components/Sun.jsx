@@ -4,8 +4,10 @@ import * as THREE from "three";
 import { createProceduralPlanetTexture } from "../utils/textureGenerator.js";
 import { PlanetLabel } from "./PlanetLabel.jsx";
 import { setPlanetPosition } from "../utils/planetPositions.js";
+import { useEngine } from "../utils/EngineContext.js";
 
 export function Sun({ onSelect, onHover, showLabels = true }) {
+  const { sphereDetail } = useEngine();
   const sunMeshRef = useRef();
 
   const texture = useMemo(
@@ -52,7 +54,7 @@ export function Sun({ onSelect, onHover, showLabels = true }) {
           onHover(null);
         }}
       >
-        <sphereGeometry args={[14, 32, 32]} />
+        <sphereGeometry args={[14, sphereDetail, sphereDetail]} />
         <meshStandardMaterial
           map={texture}
           roughness={0.55}

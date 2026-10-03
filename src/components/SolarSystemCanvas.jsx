@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import { Sun } from "./Sun.jsx";
@@ -8,6 +8,8 @@ import { Starfield } from "./Starfield.jsx";
 import { CameraRig } from "./CameraRig.jsx";
 import { projects, groupsInfo } from "../data/projectsData.js";
 import { getPlanetPosition } from "../utils/planetPositions.js";
+import { detectEngine } from "../utils/engineDetector.js";
+import { EngineContext } from "../utils/EngineContext.js";
 
 export function SolarSystemCanvas({
   selectedPlanet,
@@ -23,6 +25,7 @@ export function SolarSystemCanvas({
   onResetViewPreset,
 }) {
   const [planetPositions, setPlanetPositions] = useState({});
+  const engine = useMemo(() => detectEngine(), []);
 
   const handlePositionUpdate = useCallback((id, pos) => {
     setPlanetPositions((prev) => {
@@ -78,6 +81,17 @@ export function SolarSystemCanvas({
       }
     : null;
 
+  const engineCtx = useMemo(
+    () => ({
+      engine: engine.engine,
+      quality: engine.quality,
+      sphereDetail: engine.sphereDetail,
+      starCount: engine.starCount,
+      useShaderAtmo: engine.useShaderAtmo,
+    }),
+    [engine]
+  );
+
   return (
     <Canvas
       style={{
@@ -88,55 +102,52 @@ export function SolarSystemCanvas({
         height: "100vh",
         zIndex: 1,
       }}
-      dpr={[1, 2]}
+      dpr={engine.dprRange}
       camera={{ position: [0, 130, 240], fov: 45, near: 1, far: 3000 }}
-      gl={{
-        antialias: true,
-        powerPreference: "high-performance",
-        toneMapping: THREE.ACESFilmicToneMapping,
-        toneMappingExposure: 1.25,
-      }}
+      gl={engine.glProps}
       onPointerMissed={() => {
         onHoverPlanet(null);
       }}
     >
-      <color attach="background" args={["#060c18"]} />
-      <fogExp2 attach="fog" args={["#060c18", 0.0006]} />
+      <EngineContext.Provider value={engineCtx}>
+        <color attach="background" args={["#060c18"]} />
+        <fogExp2 attach="fog" args={["#060c18", 0.0006]} />
 
-      <ambientLight color={0x0c2538} intensity={1.8} />
-      <directionalLight color={0x14b8a6} intensity={0.9} position={[0, 200, 100]} />
-      <directionalLight color={0x0284c7} intensity={0.6} position={[0, -100, -100]} />
+        <ambientLight color={0x0c2538} intensity={1.8} />
+        <directionalLight color={0x14b8a6} intensity={0.9} position={[0, 200, 100]} />
+        <directionalLight color={0x0284c7} intensity={0.6} position={[0, -100, -100]} />
 
-      <Starfield />
+        <Starfield />
 
-      <Sun
-        onSelect={(data, pos) => onSelectPlanet(data, pos)}
-        onHover={(data, e) => onHoverPlanet(data, e)}
-        showLabels={showLabels}
-      />
-
-      {projects.map((p) => (
-        <Planet
-          key={p.id}
-          data={p}
-          isOrbitPaused={isOrbitPaused}
-          timeSpeed={timeSpeed}
-          isSelected={selectedPlanet?.id === p.id}
-          isDimmed={isPlanetDimmed(p)}
-          showLabels={showLabels}
+        <Sun
           onSelect={(data, pos) => onSelectPlanet(data, pos)}
           onHover={(data, e) => onHoverPlanet(data, e)}
-          onPositionUpdate={handlePositionUpdate}
+          showLabels={showLabels}
         />
-      ))}
 
-      <Orbits visible={showOrbits} />
+        {projects.map((p) => (
+          <Planet
+            key={p.id}
+            data={p}
+            isOrbitPaused={isOrbitPaused}
+            timeSpeed={timeSpeed}
+            isSelected={selectedPlanet?.id === p.id}
+            isDimmed={isPlanetDimmed(p)}
+            showLabels={showLabels}
+            onSelect={(data, pos) => onSelectPlanet(data, pos)}
+            onHover={(data, e) => onHoverPlanet(data, e)}
+            onPositionUpdate={handlePositionUpdate}
+          />
+        ))}
 
-      <CameraRig
-        targetFocus={targetFocus}
-        viewPreset={viewPreset}
-        onResetViewPreset={onResetViewPreset}
-      />
+        <Orbits visible={showOrbits} />
+
+        <CameraRig
+          targetFocus={targetFocus}
+          viewPreset={viewPreset}
+          onResetViewPreset={onResetViewPreset}
+        />
+      </EngineContext.Provider>
     </Canvas>
   );
 }

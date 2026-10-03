@@ -8,6 +8,7 @@ import {
 import { groupsInfo } from "../data/projectsData.js";
 import { PlanetLabel } from "./PlanetLabel.jsx";
 import { setPlanetPosition } from "../utils/planetPositions.js";
+import { useEngine } from "../utils/EngineContext.js";
 
 const noRaycast = () => {};
 
@@ -21,6 +22,7 @@ export function Planet({
   onSelect,
   onHover,
 }) {
+  const { sphereDetail, useShaderAtmo } = useEngine();
   const groupRef = useRef();
   const meshRef = useRef();
   const ringRef = useRef();
@@ -40,11 +42,13 @@ export function Planet({
     [data.ring, data.ringColor, colorHex]
   );
 
-  const atmosphereMaterial = useMemo(
-    () =>
-      new THREE.ShaderMaterial({
+  const atmosphereMaterial = useMemo(() => {
+    const glowColor = new THREE.Color(data.glowColor || colorHex);
+
+    if (useShaderAtmo) {
+      return new THREE.ShaderMaterial({
         uniforms: {
-          color: { value: new THREE.Color(data.glowColor || colorHex) },
+          color: { value: glowColor },
         },
         vertexShader: `
           varying vec3 vNormal;
@@ -65,9 +69,18 @@ export function Planet({
         side: THREE.BackSide,
         transparent: true,
         depthWrite: false,
-      }),
-    [data.glowColor, colorHex]
-  );
+      });
+    }
+
+    return new THREE.MeshBasicMaterial({
+      color: glowColor,
+      transparent: true,
+      opacity: 0.18,
+      side: THREE.BackSide,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+  }, [data.glowColor, colorHex, useShaderAtmo]);
 
   useFrame((_, delta) => {
     if (!isOrbitPaused) {
@@ -127,7 +140,7 @@ export function Planet({
           onHover(null);
         }}
       >
-        <sphereGeometry args={[data.radius || 6, 32, 32]} />
+        <sphereGeometry args={[data.radius || 6, sphereDetail, sphereDetail]} />
         <meshStandardMaterial
           map={texture}
           roughness={0.55}
@@ -141,7 +154,7 @@ export function Planet({
 
       {!isDimmed && (
         <mesh raycast={noRaycast} material={atmosphereMaterial}>
-          <sphereGeometry args={[(data.radius || 6) * 1.15, 24, 24]} />
+          <sphereGeometry args={[(data.radius || 6) * 1.15, Math.round(sphereDetail * 0.75), Math.round(sphereDetail * 0.75)]} />
         </mesh>
       )}
 

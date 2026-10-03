@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { SolarSystemCanvas } from "./components/SolarSystemCanvas.jsx";
+import { WebGLGuard } from "./components/WebGLGuard.jsx";
 import { HUD } from "./components/HUD.jsx";
 import { ProjectDrawer } from "./components/ProjectDrawer.jsx";
 import { Tooltip } from "./components/Tooltip.jsx";
@@ -83,6 +84,7 @@ export function App() {
 
   return (
     <div style={{ width: "100vw", height: "100vh", position: "relative", overflow: "hidden" }}>
+      <WebGLGuard>
       <SolarSystemCanvas
         selectedPlanet={selectedPlanet}
         onSelectPlanet={handleSelectPlanet}
@@ -97,6 +99,7 @@ export function App() {
         viewPreset={viewPreset}
         onResetViewPreset={handleResetViewPreset}
       />
+      </WebGLGuard>
 
       <HUD
         searchQuery={searchQuery}
