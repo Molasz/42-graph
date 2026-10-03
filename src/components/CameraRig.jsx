@@ -71,13 +71,11 @@ export function CameraRig({ targetFocus, viewPreset, onResetViewPreset }) {
     [camera]
   );
 
-  // Animació intro inicial
   useEffect(() => {
     camera.position.set(0, 450, 750);
     animateCamera(DEFAULT_CAM_POS, DEFAULT_TARGET, 2000, Easing.Quadratic.Out);
   }, [camera, animateCamera]);
 
-  // Presets de càmera seleccionats des del HUD (Core, Outer, Top Map, Reset)
   useEffect(() => {
     if (!viewPreset || !VIEW_PRESETS[viewPreset]) return;
     const preset = VIEW_PRESETS[viewPreset];
@@ -86,7 +84,6 @@ export function CameraRig({ targetFocus, viewPreset, onResetViewPreset }) {
     onResetViewPreset();
   }, [viewPreset, animateCamera, onResetViewPreset]);
 
-  // Zoom suau cap al planeta seleccionat en fer click o canviar de selecció
   useEffect(() => {
     if (!focusId) {
       lastPlanetPosRef.current = null;
@@ -112,7 +109,6 @@ export function CameraRig({ targetFocus, viewPreset, onResetViewPreset }) {
   useFrame(() => {
     tweenGroup.update();
 
-    // Seguir el planeta en la seva òrbita en temps real un cop acabat el tween
     if (focusId && focusId !== "sun_42") {
       const currentPosArray = getPlanetPosition(focusId);
       if (currentPosArray) {

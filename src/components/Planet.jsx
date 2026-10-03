@@ -114,7 +114,6 @@ export function Planet({
 
   return (
     <group ref={groupRef}>
-      {/* Esfera del planeta principal */}
       <mesh
         ref={meshRef}
         onClick={handleClick}
@@ -140,14 +139,12 @@ export function Planet({
         />
       </mesh>
 
-      {/* Resplendor atmosfèric (ignora raycast per no bloquejar el click) */}
       {!isDimmed && (
         <mesh raycast={noRaycast} material={atmosphereMaterial}>
           <sphereGeometry args={[(data.radius || 6) * 1.15, 24, 24]} />
         </mesh>
       )}
 
-      {/* Anell planetari (ex: saturn-like) */}
       {data.ring && (
         <mesh
           ref={ringRef}
@@ -180,10 +177,8 @@ export function Planet({
         </mesh>
       )}
 
-      {/* Anell indicador estàtic al voltant del planeta quan està seleccionat */}
       {isSelected && (
         <group>
-          {/* Anell principal amb el color del grup/projecte */}
           <mesh raycast={noRaycast} rotation={[Math.PI / 2, 0, 0]}>
             <ringGeometry
               args={[(data.radius || 6) * 1.35, (data.radius || 6) * 1.5, 64]}
@@ -196,7 +191,6 @@ export function Planet({
               depthTest={false}
             />
           </mesh>
-          {/* Anell secundari exterior subtil */}
           <mesh raycast={noRaycast} rotation={[Math.PI / 2, 0, 0]}>
             <ringGeometry
               args={[(data.radius || 6) * 1.6, (data.radius || 6) * 1.7, 64]}
@@ -212,7 +206,6 @@ export function Planet({
         </group>
       )}
 
-      {/* Etiqueta flotant de text */}
       {showLabels && !isDimmed && (
         <PlanetLabel
           position={[0, (data.radius || 6) + 5, 0]}

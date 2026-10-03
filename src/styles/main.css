@@ -222,7 +222,6 @@ header {
   gap: 10px;
 }
 
-/* Botons generals */
 .btn,
 .btn-icon {
   display: inline-flex;
@@ -275,7 +274,6 @@ header {
   display: none;
 }
 
-/* Caixa flotant de controls del sistema */
 .floating-controls {
   position: fixed;
   left: 20px;
@@ -402,7 +400,6 @@ header {
   border-color: var(--color-primary);
 }
 
-/* Barra inferior de filtres de grup */
 .filter-bar {
   position: fixed;
   bottom: 24px;
@@ -455,7 +452,6 @@ header {
   box-shadow: 0 0 12px rgba(var(--color-primary-rgb), 0.25);
 }
 
-/* Tooltip informatiu */
 #tooltip {
   position: fixed;
   pointer-events: none;
@@ -507,7 +503,6 @@ header {
   color: var(--color-text-muted);
 }
 
-/* Panell lateral de detall de projecte */
 #detail-drawer {
   position: fixed;
   top: 70px;
@@ -688,7 +683,6 @@ header {
   border-color: var(--color-primary);
 }
 
-/* Planet labels escalables */
 .planet-label {
   --label-scale: 1;
   transform: scale(var(--label-scale));
@@ -728,7 +722,6 @@ header {
   opacity: 0.85;
 }
 
-/* Responsive Rules */
 @media (max-width: 900px) {
   .header-center {
     max-width: 320px;

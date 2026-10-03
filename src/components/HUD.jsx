@@ -99,7 +99,6 @@ export function HUD({
               <span className="email-text">molasz.dev@gmail.com</span>
             </a>
 
-            {/* Botó toggle controls per a mòbil / pantalles reduïdes */}
             <button
               className={`btn btn-toggle-controls ${isControlsOpen ? "active" : ""}`}
               onClick={() => setIsControlsOpen((prev) => !prev)}
@@ -111,7 +110,6 @@ export function HUD({
         </div>
       </header>
 
-      {/* Caixa flotant de controls */}
       <div className={`floating-controls ${isControlsOpen ? "mobile-open" : ""}`}>
         <div className="controls-card">
           <div className="controls-card-header">

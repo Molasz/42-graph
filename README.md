@@ -44,10 +44,3 @@ npm run build
 # Preview production build
 npm run preview
 ```
-
-## Make it your own
-
-1. **Fork the repository** to your GitHub account.
-2. **Update project data**: Edit `src/data/projectsData.js` to add your projects, tags, descriptions, and repository links.
-3. **Update personal assets**: Replace `public/assets/CV.pdf` with your own CV.
-4. **Deploy**: Build with `npm run build` and deploy the `dist/` directory to GitHub Pages or your favorite host.

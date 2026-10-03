@@ -72,20 +72,10 @@ export function ProjectDrawer({
             href={data.link}
             target="_blank"
             rel="noopener noreferrer"
-            download={data.isDownload ? "CV_molasz.pdf" : undefined}
             className="drawer-link-btn"
           >
-            {data.isDownload ? (
-              <>
-                <Download size={16} />
-                <span>Download Curriculum Vitae (PDF)</span>
-              </>
-            ) : (
-              <>
-                <ExternalLink size={16} />
-                <span>View Project on GitHub</span>
-              </>
-            )}
+            <ExternalLink size={16} />
+            <span>View Project on GitHub</span>
           </a>
         )}
 
